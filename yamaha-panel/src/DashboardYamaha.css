@@ -1,0 +1,763 @@
+:root {
+  --y-red: #E60000;
+  --y-black: #111111;
+  --y-dark: #222222;
+  --y-grey-bg: #F0F2F5;
+  --y-border: #D1D5DB;
+  --y-white: #FFFFFF;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; padding: 0; background-color: var(--y-grey-bg); font-family: 'Inter', 'Segoe UI', sans-serif; }
+.yamaha-container { min-height: 100vh; }
+
+/* HEADER GENERAL */
+.yamaha-header { background: var(--y-black); color: var(--y-white); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--y-red); flex-wrap: wrap; gap: 15px; }
+.header-titles h1 { margin: 0; font-size: 1.3rem; letter-spacing: 1px; }
+.header-titles h2 { margin: 4px 0 0 0; font-size: 0.85rem; color: #9CA3AF; font-weight: normal; }
+.header-user-info { display: flex; align-items: center; gap: 15px; background: #1F2937; padding: 8px 15px; border-radius: 6px; border: 1px solid #374151; }
+.user-badge-role { font-size: 0.85rem; color: #D1D5DB; }
+.btn-logout { background: transparent; color: #F87171; border: 1px solid #F87171; padding: 5px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; cursor: pointer; transition: 0.2s; }
+.btn-logout:hover { background: #F87171; color: white; }
+.resumen-ejecutivo { text-align: right; }
+.resumen-ejecutivo span { font-size: 0.75rem; font-weight: bold; letter-spacing: 1px; }
+.progress-mini { width: 160px; height: 6px; background: #374151; border-radius: 3px; margin-top: 6px; overflow: hidden; }
+.progress-mini div { height: 100%; background: var(--y-white); transition: width 0.3s ease; }
+
+.yamaha-main { padding: 30px 40px; max-width: 1200px; margin: 0 auto; }
+
+/* ---------------------------------
+   TABS Y CONTROLES DEL SUPERVISOR 
+----------------------------------- */
+.supervisor-tabs-container { display: flex; gap: 30px; border-bottom: 2px solid #E5E7EB; margin-bottom: 25px; padding-bottom: 0px; }
+.tab-supervisor { background: transparent; border: none; font-size: 1rem; font-weight: bold; color: #6B7280; cursor: pointer; padding: 10px 15px; border-bottom: 3px solid transparent; margin-bottom: -2px; }
+.tab-supervisor.active { color: var(--y-black); border-bottom-color: var(--y-red); }
+.tab-supervisor:hover:not(.active) { color: var(--y-black); }
+
+.panel-timeline { background: var(--y-white); padding: 25px; border-radius: 8px; margin-bottom: 25px; }
+.panel-title { margin: 0 0 15px 0; font-size: 0.95rem; color: var(--y-black); font-weight: bold; }
+.timeline-boxes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+.timeline-box { padding: 15px; border-radius: 6px; border: 1px solid var(--y-border); text-align: center; background: var(--y-white); }
+.timeline-box.current { background: var(--y-red); color: var(--y-white); border-color: var(--y-red); }
+.timeline-box .label { display: block; font-size: 0.75rem; margin-bottom: 5px; color: #9CA3AF; }
+.timeline-box.current .label { color: #FECACA; }
+.timeline-box strong { font-size: 1.1rem; }
+
+.panel-control-dia { display: flex; justify-content: space-between; align-items: center; background: var(--y-white); padding: 15px 20px; border-radius: 8px; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
+.nav-fechas { display: flex; align-items: center; gap: 10px; }
+.btn-icon-sq { background: var(--y-dark); color: var(--y-white); border: none; width: 36px; height: 36px; border-radius: 4px; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; }
+.input-fecha-wrapper { position: relative; display: flex; align-items: center; }
+.input-fecha-display { border: 1px solid var(--y-border); padding: 8px 35px 8px 12px; border-radius: 4px; font-weight: bold; font-family: inherit; font-size: 1rem; width: 140px; background: white; text-align: center; }
+.input-fecha-hidden { position: absolute; right: 5px; opacity: 0; width: 24px; height: 24px; cursor: pointer; }
+.input-fecha-wrapper::after { content: "📅"; position: absolute; right: 10px; pointer-events: none; font-size: 1.1rem; }
+
+.controles-supervisores-duales { display: flex; gap: 20px; flex-wrap: wrap; }
+.selector-wrapper { display: flex; align-items: center; gap: 10px; }
+.selector-wrapper label { font-size: 0.8rem; font-weight: bold; color: var(--y-black); }
+.select-normal { padding: 8px 12px; border: 1px solid var(--y-border); border-radius: 4px; font-weight: bold; background: white; outline: none; }
+
+.barra-acciones-dia { display: flex; justify-content: space-between; align-items: center; background: transparent; margin-bottom: 15px; }
+.info-dia-contador { font-size: 0.95rem; color: #4B5563; }
+.btn-agregar-preventivo { background: var(--y-black); color: var(--y-white); border: none; padding: 10px 16px; border-radius: 4px; font-weight: bold; font-size: 0.85rem; cursor: pointer; }
+
+/* ---------------------------------
+   VISTA DEL OPERARIO (BANNER)
+----------------------------------- */
+.operario-welcome-banner { background: white; padding: 20px 25px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 4px solid var(--y-red); }
+.operario-welcome-banner h3 { margin: 0 0 5px 0; color: var(--y-black); }
+.operario-welcome-banner p { margin: 0; color: #6B7280; font-size: 0.9rem; }
+.fecha-badge-actual { background: #F3F4F6; padding: 6px 12px; border-radius: 4px; font-weight: bold; font-size: 0.85rem; color: var(--y-dark); border: 1px solid var(--y-border); }
+.empty-state { text-align: center; padding: 60px 20px; background: white; border-radius: 8px; color: #6B7280; font-size: 1.1rem; border: 1px dashed var(--y-border); margin-top: 20px;}
+
+/* ---------------------------------
+   TARJETAS DE PREVENTIVOS 
+----------------------------------- */
+.grid-preventivos { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 20px; }
+.card-tarea { background: var(--y-white); border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); display: flex; flex-direction: column; overflow: hidden; }
+.card-tarea.completado { opacity: 0.7; }
+.card-imagen-container { position: relative; height: 160px; width: 100%; background: #ddd; }
+.card-imagen { width: 100%; height: 100%; object-fit: cover; }
+.tarea-numero { position: absolute; top: 10px; left: 10px; background: rgba(30,30,30,0.85); color: white; padding: 5px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; }
+.badges-top-right { position: absolute; top: 10px; right: 10px; display: flex; gap: 6px; align-items: center; }
+.badge-estado { background: #E5E7EB; color: #374151; padding: 5px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase;}
+.btn-eliminar-card { background: var(--y-red); color: white; border: none; width: 26px; height: 26px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; }
+
+.card-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+.equipo-titulo { margin: 0 0 5px 0; font-size: 1.1rem; color: var(--y-black); }
+.cliente-subtitulo { margin: 0; font-size: 0.85rem; color: #6B7280; }
+.btn-editar-link { background: none; border: none; color: var(--y-red); font-size: 0.85rem; padding: 0; margin-top: 15px; cursor: pointer; font-weight: bold; text-align: left; text-decoration: underline; text-underline-offset: 3px; }
+
+.card-footer { padding: 15px 20px; border-top: 1px solid #F3F4F6; background: white; }
+.btn-marcar-ok { width: 100%; background: var(--y-black); color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-size: 0.9rem; font-weight: bold; }
+.btn-marcar-ok:hover { background: #333; }
+
+/* ---------------------------------
+   NOTAS, PASOS Y MODALES
+----------------------------------- */
+.seccion-procedimiento { margin-top: 15px; border-top: 1px solid var(--y-border); padding-top: 10px; }
+.btn-toggle-pasos { width: 100%; background: transparent; border: 1px dashed #9CA3AF; padding: 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: bold; color: var(--y-dark); }
+.lista-pasos-operario { list-style: none; padding: 10px 15px; margin: 5px 0 0 0; background: #F9FAFB; border: 1px solid var(--y-border); border-radius: 4px; }
+.lista-pasos-operario li { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; font-size: 0.85rem; color: #374151; }
+.seccion-notas { margin-top: 12px; padding-top: 10px; }
+.agregar-nota-link { font-size: 0.8rem; color: var(--y-red); cursor: pointer; font-weight: bold; }
+.box-ver-nota { background: #F9FAFB; padding: 8px 10px; border-radius: 4px; border-left: 3px solid var(--y-red); cursor: pointer; }
+.nota-texto { margin: 0; font-size: 0.8rem; color: #374151; }
+.box-editar-nota textarea { width: 100%; border: 1px solid var(--y-border); border-radius: 4px; padding: 6px; font-family: inherit; font-size: 0.8rem; resize: vertical; outline: none; }
+.acciones-nota { display: flex; gap: 6px; margin-top: 5px; }
+.btn-save-nota { background: var(--y-dark); color: white; border: none; padding: 6px 12px; font-size: 0.75rem; border-radius: 3px; cursor: pointer; font-weight: bold; }
+.btn-cancel-nota { background: #E5E7EB; border: none; padding: 6px 12px; font-size: 0.75rem; border-radius: 3px; cursor: pointer; font-weight: bold; }
+
+/* MODAL DE EDICION Y AGREGADO */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.modal-content { background: white; padding: 25px; border-radius: 8px; width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+.modal-content h3 { margin-top: 0; margin-bottom: 20px; color: var(--y-black); }
+.edicion-select { width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 4px; border: 1px solid var(--y-border); font-family: inherit; }
+.edicion-acciones { display: flex; gap: 10px; justify-content: flex-end; }
+.btn-guardar { background: var(--y-black); color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+.btn-cancelar { background: #E5E7EB; color: var(--y-dark); border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+.modo-edicion { display: flex; flex-direction: column; gap: 10px; }
+
+/* ---------------------------------
+   BANCO MAESTRO (CREADOR)
+----------------------------------- */
+.banco-maestro-container { display: flex; flex-direction: column; gap: 30px; }
+.creador-preventivo-card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--y-red); }
+.creador-header { margin-bottom: 25px; border-bottom: 1px solid var(--y-border); padding-bottom: 15px; }
+.creador-header h3 { margin: 0; color: var(--y-black); font-size: 1.3rem; }
+.creador-header p { margin: 5px 0 0 0; color: #6B7280; font-size: 0.9rem; }
+.form-creador-grid { display: grid; grid-template-columns: 280px 1fr; gap: 30px; }
+.columna-foto { display: flex; flex-direction: column; }
+.image-upload-box { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 280px; width: 100%; border: 2px dashed #9CA3AF; border-radius: 8px; background-color: #F9FAFB; cursor: pointer; position: relative; overflow: hidden; }
+.upload-placeholder { display: flex; flex-direction: column; align-items: center; color: #6B7280; font-weight: bold; }
+.upload-plus { font-size: 4rem; color: #D1D5DB; margin-bottom: 10px; font-weight: 300; line-height: 1; }
+.image-upload-box:hover .upload-plus { color: var(--y-red); }
+.upload-preview-container { width: 100%; height: 100%; position: relative; }
+.upload-preview { width: 100%; height: 100%; object-fit: cover; }
+.upload-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); color: white; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; font-weight: bold; }
+.upload-preview-container:hover .upload-overlay { opacity: 1; }
+.columna-datos { display: flex; flex-direction: column; gap: 20px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group label { font-size: 0.85rem; font-weight: bold; color: var(--y-dark); }
+.form-group input { padding: 12px; border: 1px solid var(--y-border); border-radius: 6px; font-family: inherit; font-size: 0.95rem; background: #F9FAFB; outline: none; }
+.pasos-container { background: #F3F4F6; padding: 20px; border-radius: 8px; border: 1px solid var(--y-border); }
+.pasos-container label { font-size: 0.85rem; font-weight: bold; display: block; margin-bottom: 15px; color: var(--y-dark); }
+.paso-input-row { display: flex; align-items: center; gap: 10px; background: white; padding: 5px 10px; border-radius: 6px; border: 1px solid var(--y-border); margin-bottom: 8px;}
+.paso-num { font-weight: bold; color: var(--y-red); width: 20px; text-align: center; }
+.paso-input-row input { flex-grow: 1; padding: 8px; border: none; font-family: inherit; outline: none; }
+.btn-quitar-paso { background: none; border: none; cursor: pointer; color: #9CA3AF; }
+.btn-add-paso { background: white; border: 1px dashed var(--y-dark); color: var(--y-dark); padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85rem; width: fit-content; }
+.btn-guardar-banco { background: var(--y-black); color: white; border: none; padding: 14px; border-radius: 6px; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: auto; }
+
+.lista-banco-existente h3 { margin-bottom: 20px; color: var(--y-black); font-size: 1.2rem; }
+.grid-preventivos.mini .card-imagen-container { height: 120px; }
+.resumen-pasos-mini { margin-top: 12px; font-size: 0.8rem; color: #374151; background: #E5E7EB; padding: 6px 10px; border-radius: 4px; display: inline-block; font-weight: bold; }
+
+/* ---------------------------------
+   TABLAS (FALLAS Y AUDITORIA)
+----------------------------------- */
+.tabla-auditoria-container { background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); overflow: hidden; margin-bottom: 40px;}
+.tabla-auditoria-container.rojo { border-left: 4px solid var(--y-red); }
+.tabla-auditoria { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
+.tabla-auditoria th { background: #F9FAFB; color: #6B7280; padding: 12px 20px; font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid var(--y-border);}
+.tabla-auditoria td { padding: 14px 20px; border-bottom: 1px solid #F3F4F6; color: var(--y-dark); }
+.empty-table-cell { text-align: center; padding: 30px !important; color: #6B7280; font-style: italic; }
+.badge-tabla-completado { background: #DCFCE7; color: #166534; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 0.8rem; }
+.badge-tabla-pendiente { background: #FEF3C7; color: #92400E; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 0.8rem; }
+.texto-observacion-tabla { color: var(--y-red); font-weight: bold; }
+.sub-sector { font-size: 0.8rem; color: #6B7280; }
+.badge-operario { background: #E5E7EB; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 0.8rem; color: var(--y-dark); }
+
+/* ---------------------------------
+   PANTALLA DE LOGIN (ESTILOS RESTAURADOS)
+----------------------------------- */
+.login-container {
+  min-height: 100vh;
+  width: 100%;
+  padding: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.48),
+      rgba(10, 10, 10, 0.55),
+      rgba(0, 0, 0, 0.82)
+    ),
+    url('https://wallpapercat.com/w/full/a/a/5/10962-3840x2160-desktop-4k-yamaha-background.jpg');
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+/* =========================================
+   DECORACIÓN DE FONDO
+   ========================================= */
+
+.login-container::before {
+  content: "";
+  position: absolute;
+
+  width: 500px;
+  height: 500px;
+
+  top: -250px;
+  right: -200px;
+
+  background: var(--y-red);
+  opacity: 0.08;
+
+  border-radius: 50%;
+  filter: blur(100px);
+
+  pointer-events: none;
+}
+
+.login-container::after {
+  content: "";
+  position: absolute;
+
+  width: 400px;
+  height: 400px;
+
+  bottom: -250px;
+  left: -200px;
+
+  background: var(--y-red);
+  opacity: 0.05;
+
+  border-radius: 50%;
+  filter: blur(100px);
+
+  pointer-events: none;
+}
+
+
+/* =========================================
+   TARJETA
+   ========================================= */
+
+.login-card {
+  position: relative;
+  z-index: 1;
+
+  width: 100%;
+  max-width: 440px;
+
+  padding: 42px;
+
+  background: rgba(15, 15, 15, 0.78);
+
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-top: 4px solid var(--y-red);
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.65),
+    0 0 40px rgba(255, 0, 0, 0.06);
+
+  animation: loginAppear 0.6s ease-out;
+}
+
+
+/* Línea decorativa superior */
+
+.login-card::before {
+  content: "";
+
+  position: absolute;
+
+  top: -4px;
+  left: 40px;
+
+  width: 70px;
+  height: 4px;
+
+  background: var(--y-white);
+
+  border-radius: 0 0 4px 4px;
+}
+
+
+/* =========================================
+   HEADER
+   ========================================= */
+
+.login-header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.login-header h1 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 1.7rem;
+  font-weight: 800;
+
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
+
+.login-header h1 span {
+  color: var(--y-red);
+}
+
+.login-header p {
+  margin: 9px 0 0;
+
+  color: rgba(255, 255, 255, 0.58);
+
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+
+/* =========================================
+   FORMULARIO
+   ========================================= */
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+
+  gap: 21px;
+}
+
+
+/* =========================================
+   TABS DE ROL
+   ========================================= */
+
+.rol-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 4px;
+
+  padding: 4px;
+
+  background: rgba(255, 255, 255, 0.07);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  border-radius: 10px;
+}
+
+.tab-btn {
+  position: relative;
+
+  padding: 11px 10px;
+
+  background: transparent;
+
+  border: none;
+  border-radius: 7px;
+
+  color: rgba(255, 255, 255, 0.5);
+
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.2s ease;
+}
+
+.tab-btn:hover {
+  color: #ffffff;
+}
+
+.tab-btn.active {
+  background: #ffffff;
+
+  color: #111111;
+
+  box-shadow:
+    0 3px 10px rgba(0, 0, 0, 0.25);
+}
+
+.tab-btn:active {
+  transform: scale(0.98);
+}
+
+
+/* =========================================
+   FORM GROUP
+   ========================================= */
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+.form-group label {
+  color: rgba(255, 255, 255, 0.82);
+
+  font-size: 0.82rem;
+  font-weight: 700;
+
+  letter-spacing: 0.3px;
+}
+
+
+/* =========================================
+   INPUTS
+   ========================================= */
+
+.login-input {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 13px 14px;
+
+  background: rgba(255, 255, 255, 0.06);
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+
+  border-radius: 9px;
+
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 0.95rem;
+
+  outline: none;
+
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.2s ease;
+}
+
+.login-input::placeholder {
+  color: rgba(255, 255, 255, 0.32);
+}
+
+.login-input:hover {
+  background: rgba(255, 255, 255, 0.08);
+
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.login-input:focus {
+  background: rgba(255, 255, 255, 0.09);
+
+  border-color: var(--y-red);
+
+  box-shadow:
+    0 0 0 3px rgba(220, 0, 0, 0.12);
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================
+   ERROR
+   ========================================= */
+
+.login-error {
+  margin: -5px 0 0;
+
+  padding: 10px 12px;
+
+  color: #ff6b6b;
+
+  background: rgba(220, 0, 0, 0.08);
+
+  border: 1px solid rgba(220, 0, 0, 0.18);
+
+  border-radius: 8px;
+
+  font-size: 0.82rem;
+  font-weight: 600;
+
+  line-height: 1.4;
+}
+
+
+/* =========================================
+   BOTÓN LOGIN
+   ========================================= */
+
+.btn-login-submit {
+  position: relative;
+
+  width: 100%;
+
+  margin-top: 5px;
+
+  padding: 14px 18px;
+
+  overflow: hidden;
+
+  background: var(--y-red);
+
+  color: #ffffff;
+
+  border: none;
+  border-radius: 9px;
+
+  font-family: inherit;
+
+  font-size: 0.92rem;
+  font-weight: 800;
+
+  letter-spacing: 0.7px;
+
+  cursor: pointer;
+
+  text-transform: uppercase;
+
+  box-shadow:
+    0 8px 20px rgba(220, 0, 0, 0.22);
+
+  transition:
+    background 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.25s ease;
+}
+
+
+/* Brillo del botón */
+
+.btn-login-submit::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -100%;
+
+  width: 70%;
+  height: 100%;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.18),
+    transparent
+  );
+
+  transform: skewX(-20deg);
+
+  transition: left 0.6s ease;
+}
+
+.btn-login-submit:hover::before {
+  left: 130%;
+}
+
+.btn-login-submit:hover {
+  background: #ffffff;
+
+  color: #111111;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.35);
+}
+
+.btn-login-submit:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================
+   FOCUS ACCESIBLE
+   ========================================= */
+
+.tab-btn:focus-visible,
+.login-input:focus-visible,
+.btn-login-submit:focus-visible {
+  outline: 2px solid var(--y-red);
+  outline-offset: 3px;
+}
+
+
+/* =========================================
+   ANIMACIÓN
+   ========================================= */
+
+@keyframes loginAppear {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 600px) {
+
+  .login-container {
+    padding: 16px;
+
+    background-position: center;
+  }
+
+  .login-card {
+    max-width: 100%;
+
+    padding: 32px 24px;
+
+    border-radius: 15px;
+  }
+
+  .login-card::before {
+    left: 28px;
+  }
+
+  .login-header {
+    margin-bottom: 25px;
+  }
+
+  .login-header h1 {
+    font-size: 1.45rem;
+  }
+
+  .login-form {
+    gap: 18px;
+  }
+}
+
+
+/* =========================================
+   PANTALLAS MUY PEQUEÑAS
+   ========================================= */
+
+@media (max-height: 650px) {
+
+  .login-container {
+    align-items: flex-start;
+
+    padding-top: 30px;
+    padding-bottom: 30px;
+
+    overflow-y: auto;
+  }
+
+  .login-card {
+    padding: 28px 24px;
+  }
+
+  .login-header {
+    margin-bottom: 20px;
+  }
+
+  .login-form {
+    gap: 15px;
+  }
+}
+
+
+/* =========================================
+   REDUCIR ANIMACIONES
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .login-card {
+    animation: none;
+  }
+
+  .login-input,
+  .tab-btn,
+  .btn-login-submit {
+    transition: none;
+  }
+}
+/* BOTON EXCEL OPERARIO */
+.btn-ver-excel {
+  display: block;
+  width: 100%;
+  background-color: #059669; /* Verde Excel */
+  color: white;
+  text-align: center;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: 0.2s;
+}
+.btn-ver-excel:hover {
+  background-color: #047857;
+}
+
+/* ESTADOS CATALOGO */
+.badge-tabla-no-programado {
+  background: #F3F4F6;
+  color: #6B7280;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+/* NUEVO: BOTÓN EXCEL DEL OPERARIO Y MODAL OPERARIOS */
+.btn-ver-excel {
+  display: block;
+  width: 100%;
+  background-color: #059669; /* Verde Estilo Excel */
+  color: white;
+  text-align: center;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: 0.2s;
+  border: 1px solid #047857;
+}
+.btn-ver-excel:hover {
+  background-color: #047857;
+}
+
+.lista-operarios-modal {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid var(--y-border);
+  border-radius: 4px;
+  padding: 5px;
+  margin-bottom: 15px;
+}
+
+.badge-tabla-no-programado {
+  background: #F3F4F6;
+  color: #6B7280;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 0.8rem;
+}
