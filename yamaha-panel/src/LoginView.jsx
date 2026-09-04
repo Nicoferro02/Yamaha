@@ -1,159 +1,67 @@
 import React, { useState } from 'react';
 
 export default function LoginView({ onLogin }) {
-  const [tipoRol, setTipoRol] = useState('operario');
+  const [nombre, setNombre] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const [mostrarPassword, setMostrarPassword] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    setError('');
-
-    // SUPERVISOR
-    if (tipoRol === 'supervisor') {
-      if (password === '1234') {
-        onLogin({
-          role: 'supervisor',
-          name: 'Supervisión General'
-        });
-      } else {
-        setError('Contraseña de supervisor incorrecta.');
-      }
-
-      return;
-    }
-
-    // OPERARIO
-    if (tipoRol === 'operario') {
-      onLogin({
-        role: 'operario',
-        name: 'Equipo Operativo Yamaha'
-      });
-    }
-  };
-
-  const cambiarRol = (rol) => {
-    setTipoRol(rol);
-    setPassword('');
-    setError('');
-    setMostrarPassword(false);
+    if (!nombre.trim()) return;
+    // Pasa el usuario ingresado al dashboard principal
+    onLogin({ name: nombre.trim(), role: nombre.toLowerCase().includes('sup') ? 'supervisor' : 'operario' });
   };
 
   return (
-    <div className="login-container">
-
-      <div className="login-card">
-
-        <div className="login-header">
-          <h1>YAMAHA MOTOR</h1>
-          <p>Sistema Integral de Mantenimiento</p>
+    <div className="yamaha-login-container" style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', background: '#111'}}>
+      <form onSubmit={handleSubmit} className="login-card" style={{background: '#222', padding: '30px', borderRadius: '8px', width: '350px', color: '#fff', boxShadow: '0 4px 12px rgba(0,0,0,0.5)'}}>
+        <h2 style={{textAlign: 'center', marginBottom: '20px', color: 'var(--y-red, #E60012)'}}>YAMAHA MOTOR</h2>
+        
+        {/* Campo de Usuario */}
+        <div style={{marginBottom: '15px'}}>
+          <label style={{display: 'block', marginBottom: '5px', fontSize: '0.9rem'}}>Usuario / Nombre:</label>
+          <input 
+            type="text" 
+            value={nombre} 
+            onChange={(e) => setNombre(e.target.value)} 
+            placeholder="Ingrese su nombre..." 
+            required
+            style={{width: '100%', padding: '10px', background: '#333', border: '1px solid #441', color: '#fff', borderRadius: '4px'}}
+          />
         </div>
 
-        <form
-          onSubmit={handleLogin}
-          className="login-form"
-        >
-
-          <div className="rol-tabs">
-
-            <button
-              type="button"
-              className={`tab-btn ${
-                tipoRol === 'operario'
-                  ? 'active'
-                  : ''
-              }`}
-              onClick={() => cambiarRol('operario')}
-            >
-              🛠️ Operario
-            </button>
-
-            <button
-              type="button"
-              className={`tab-btn ${
-                tipoRol === 'supervisor'
-                  ? 'active'
-                  : ''
-              }`}
-              onClick={() => cambiarRol('supervisor')}
-            >
-              📊 Supervisor
-            </button>
-
+        {/* Campo de Contraseña / Credencial con Contador y Ojito */}
+        <div style={{marginBottom: '20px'}}>
+          <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '5px', fontSize: '0.9rem'}}>
+            <label>Contraseña / PIN:</label>
+            <span style={{color: '#888', fontSize: '0.8rem'}}>{password.length} caracteres</span>
           </div>
+          <div style={{position: 'relative', display: 'flex', alignItems: 'center'}}>
+            <input 
+              type={mostrarPassword ? 'text' : 'password'} 
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)} 
+              placeholder="Ingrese clave..." 
+              style={{width: '100%', padding: '10px', paddingRight: '40px', background: '#333', border: '1px solid #441', color: '#fff', borderRadius: '4px'}}
+            />
+            <button 
+              type="button" 
+              onClick={() => setMostrarPassword(!mostrarPassword)} 
+              style={{position: 'absolute', right: '10px', background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem'}}
+              title={mostrarPassword ? 'Ocultar contraseña' : 'Ver contraseña'}
+            >
+              {mostrarPassword ? '👁️' : '🔒'}
+            </button>
+          </div>
+        </div>
 
-          {tipoRol === 'supervisor' && (
-            <div className="form-group">
-
-              <label>
-                Contraseña de supervisor
-              </label>
-
-              <div className="password-input-wrapper">
-
-                <input
-                  type={mostrarPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                    setError('');
-                  }}
-                  className="login-input login-input-password"
-                  placeholder="Ingresar contraseña"
-                  autoFocus
-                  autoComplete="current-password"
-                />
-
-                <button
-                  type="button"
-                  className="btn-toggle-password"
-                  onClick={() =>
-                    setMostrarPassword((prev) => !prev)
-                  }
-                  aria-label={
-                    mostrarPassword
-                      ? 'Ocultar contraseña'
-                      : 'Mostrar contraseña'
-                  }
-                  title={
-                    mostrarPassword
-                      ? 'Ocultar contraseña'
-                      : 'Mostrar contraseña'
-                  }
-                >
-                  {mostrarPassword ? '🙈' : '👁'}
-                </button>
-
-              </div>
-
-            </div>
-          )}
-
-          {tipoRol === 'operario' && (
-            <div className="login-operario-info">
-              Acceso directo al panel operativo
-            </div>
-          )}
-
-          {error && (
-            <p className="login-error">
-              {error}
-            </p>
-          )}
-
-          <button
-            type="submit"
-            className="btn-login-submit"
-          >
-            Ingresar al Sistema ➔
-          </button>
-
-        </form>
-
-      </div>
-
+        <button 
+          type="submit" 
+          style={{width: '100%', padding: '12px', background: 'var(--y-red, #E60012)', color: '#fff', border: 'none', borderRadius: '4px', fontWeight: 'bold', cursor: 'pointer'}}
+        >
+          Ingresar al Sistema
+        </button>
+      </form>
     </div>
   );
 }
