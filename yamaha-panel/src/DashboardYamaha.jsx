@@ -81,24 +81,24 @@ const leerDatosSeguros = (key, valorPorDefecto = {}) => {
 };
 
 export default function DashboardYamaha() {
-  const [currentUser, setCurrentUser] = useState(() => leerDatosSeguros('yamaha_auth_user_v13', null));
+  const [currentUser, setCurrentUser] = useState(() => leerDatosSeguros('yamaha_auth_user_v14', null));
   const [fechaPantalla, setFechaPantalla] = useState(new Date());
 
-  const [operarios, setOperarios] = useState(() => leerDatosSeguros('yamaha_operarios_v13', OP_INICIALES));
-  const [bancoPreventivos, setBancoPreventivos] = useState(() => leerDatosSeguros('yamaha_banco_v13', BANCO_INICIAL));
-  const [asignacionesSemanales, setAsignacionesSemanales] = useState(() => leerDatosSeguros('yamaha_semanales_v13'));
-  const [asignacionesDiarias, setAsignacionesDiarias] = useState(() => leerDatosSeguros('yamaha_diarias_v13'));
-  const [agendaPorFecha, setAgendaPorFecha] = useState(() => leerDatosSeguros('yamaha_agenda_v13'));
-  const [notasTareas, setNotasTareas] = useState(() => leerDatosSeguros('yamaha_notas_v13'));
+  const [operarios, setOperarios] = useState(() => leerDatosSeguros('yamaha_operarios_v14', OP_INICIALES));
+  const [bancoPreventivos, setBancoPreventivos] = useState(() => leerDatosSeguros('yamaha_banco_v14', BANCO_INICIAL));
+  const [asignacionesSemanales, setAsignacionesSemanales] = useState(() => leerDatosSeguros('yamaha_semanales_v14'));
+  const [asignacionesDiarias, setAsignacionesDiarias] = useState(() => leerDatosSeguros('yamaha_diarias_v14'));
+  const [agendaPorFecha, setAgendaPorFecha] = useState(() => leerDatosSeguros('yamaha_agenda_v14'));
+  const [notasTareas, setNotasTareas] = useState(() => leerDatosSeguros('yamaha_notas_v14'));
 
   useEffect(() => {
-    localStorage.setItem('yamaha_auth_user_v13', JSON.stringify(currentUser));
-    localStorage.setItem('yamaha_operarios_v13', JSON.stringify(operarios));
-    localStorage.setItem('yamaha_banco_v13', JSON.stringify(bancoPreventivos));
-    localStorage.setItem('yamaha_semanales_v13', JSON.stringify(asignacionesSemanales));
-    localStorage.setItem('yamaha_diarias_v13', JSON.stringify(asignacionesDiarias));
-    localStorage.setItem('yamaha_agenda_v13', JSON.stringify(agendaPorFecha));
-    localStorage.setItem('yamaha_notas_v13', JSON.stringify(notasTareas));
+    localStorage.setItem('yamaha_auth_user_v14', JSON.stringify(currentUser));
+    localStorage.setItem('yamaha_operarios_v14', JSON.stringify(operarios));
+    localStorage.setItem('yamaha_banco_v14', JSON.stringify(bancoPreventivos));
+    localStorage.setItem('yamaha_semanales_v14', JSON.stringify(asignacionesSemanales));
+    localStorage.setItem('yamaha_diarias_v14', JSON.stringify(asignacionesDiarias));
+    localStorage.setItem('yamaha_agenda_v14', JSON.stringify(agendaPorFecha));
+    localStorage.setItem('yamaha_notas_v14', JSON.stringify(notasTareas));
   }, [currentUser, operarios, bancoPreventivos, asignacionesSemanales, asignacionesDiarias, agendaPorFecha, notasTareas]);
 
   // 🤖 MOTOR DE AUTOMATIZACIÓN MENSUAL (CLONADO INTELIGENTE POR DÍAS HÁBILES)
