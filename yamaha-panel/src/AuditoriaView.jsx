@@ -87,7 +87,13 @@ export default function AuditoriaView({ bancoPreventivos, agendaPorFecha, fechaP
                     <td><span className="sub-sector">{item.cl}</span></td>
                     <td>
                       {item.excel ? (
-                        <a href={item.excel} target="_blank" rel="noreferrer" style={{color: '#10B981', textDecoration: 'none', fontWeight: 'bold', fontSize: '0.85rem'}}>📄 Ver Excel</a>
+                        <button 
+                          type="button"
+                          onClick={() => window.open(item.excel, '_blank')}
+                          style={{background: 'none', border: 'none', color: '#10B981', textDecoration: 'none', fontWeight: 'bold', fontSize: '0.85rem', cursor: 'pointer', padding: 0}}
+                        >
+                          📄 Ver Excel
+                        </button>
                       ) : (
                         <span style={{color: '#9CA3AF', fontSize: '0.85rem'}}>-</span>
                       )}
