@@ -8,10 +8,8 @@ export default function LoginView({ onLogin }) {
 
   const handleLogin = (e) => {
     e.preventDefault();
-
     setError('');
 
-    // SUPERVISOR
     if (tipoRol === 'supervisor') {
       if (password === '1234') {
         onLogin({
@@ -25,13 +23,10 @@ export default function LoginView({ onLogin }) {
       return;
     }
 
-    // OPERARIO
-    if (tipoRol === 'operario') {
-      onLogin({
-        role: 'operario',
-        name: 'Equipo Operativo Yamaha'
-      });
-    }
+    onLogin({
+      role: 'operario',
+      name: 'Equipo Operativo Yamaha'
+    });
   };
 
   const cambiarRol = (rol) => {
@@ -61,9 +56,7 @@ export default function LoginView({ onLogin }) {
             <button
               type="button"
               className={`tab-btn ${
-                tipoRol === 'operario'
-                  ? 'active'
-                  : ''
+                tipoRol === 'operario' ? 'active' : ''
               }`}
               onClick={() => cambiarRol('operario')}
             >
@@ -73,9 +66,7 @@ export default function LoginView({ onLogin }) {
             <button
               type="button"
               className={`tab-btn ${
-                tipoRol === 'supervisor'
-                  ? 'active'
-                  : ''
+                tipoRol === 'supervisor' ? 'active' : ''
               }`}
               onClick={() => cambiarRol('supervisor')}
             >
@@ -91,7 +82,7 @@ export default function LoginView({ onLogin }) {
                 Contraseña de supervisor
               </label>
 
-              <div className="password-input-wrapper">
+              <div className="password-field">
 
                 <input
                   type={mostrarPassword ? 'text' : 'password'}
@@ -100,30 +91,58 @@ export default function LoginView({ onLogin }) {
                     setPassword(e.target.value);
                     setError('');
                   }}
-                  className="login-input login-input-password"
+                  className="login-input password-input"
                   placeholder="Ingresar contraseña"
                   autoFocus
-                  autoComplete="current-password"
                 />
 
                 <button
                   type="button"
-                  className="btn-toggle-password"
+                  className="password-eye"
                   onClick={() =>
-                    setMostrarPassword((prev) => !prev)
+                    setMostrarPassword(!mostrarPassword)
                   }
                   aria-label={
                     mostrarPassword
                       ? 'Ocultar contraseña'
                       : 'Mostrar contraseña'
                   }
-                  title={
-                    mostrarPassword
-                      ? 'Ocultar contraseña'
-                      : 'Mostrar contraseña'
-                  }
                 >
-                  {mostrarPassword ? '🙈' : '👁'}
+
+                  {mostrarPassword ? (
+                    /* OJO TACHADO */
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="21"
+                      height="21"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M3 3l18 18" />
+                      <path d="M10.6 10.6a2 2 0 002.8 2.8" />
+                      <path d="M9.9 4.2A10.5 10.5 0 0112 4c5 0 9 4 10 8a12.7 12.7 0 01-2 4.1" />
+                      <path d="M6.6 6.6C4.5 8 3.2 10 2 12c1 4 5 8 10 8a10.8 10.8 0 004.1-.8" />
+                    </svg>
+                  ) : (
+                    /* OJO */
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="21"
+                      height="21"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  )}
+
                 </button>
 
               </div>

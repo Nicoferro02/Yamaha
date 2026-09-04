@@ -3190,21 +3190,25 @@ a:focus-visible {
 /* =========================
    INPUT CONTRASEÑA + OJO
 ========================= */
+/* =========================
+   CAMPO CONTRASEÑA
+========================= */
 
-.password-input-wrapper {
+.password-field {
   position: relative;
   width: 100%;
 }
 
-.login-input-password {
-  padding-right: 48px;
+.password-field .password-input {
+  width: 100%;
+  padding-right: 52px;
 }
 
-.btn-toggle-password {
+.password-eye {
   position: absolute;
 
   top: 50%;
-  right: 8px;
+  right: 9px;
 
   transform: translateY(-50%);
 
@@ -3215,32 +3219,61 @@ a:focus-visible {
   align-items: center;
   justify-content: center;
 
+  padding: 0;
+
   border: none;
   border-radius: 7px;
 
   background: transparent;
 
-  color: rgba(255, 255, 255, 0.7);
-
-  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.65);
 
   cursor: pointer;
 
+  z-index: 10;
+
   transition:
-    background 0.2s ease,
-    color 0.2s ease;
+    color 0.2s ease,
+    background 0.2s ease;
 }
 
-.btn-toggle-password:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: white;
+.password-eye:hover {
+  color: #ffffff;
+
+  background:
+    rgba(255, 255, 255, 0.09);
 }
 
-.btn-toggle-password:focus-visible {
+.password-eye svg {
+  display: block;
+
+  pointer-events: none;
+}
+
+.password-eye:focus-visible {
   outline: 2px solid var(--y-red);
   outline-offset: 2px;
 }
 
+.login-operario-info {
+  padding: 11px 12px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.08);
+
+  border-radius: 8px;
+
+  background:
+    rgba(255, 255, 255, 0.04);
+
+  color:
+    rgba(255, 255, 255, 0.58);
+
+  font-size: 0.8rem;
+
+  text-align: center;
+}
 .login-operario-info {
   padding: 11px 12px;
 
