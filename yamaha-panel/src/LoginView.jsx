@@ -4,6 +4,7 @@ export default function LoginView({ onLogin }) {
   const [tipoRol, setTipoRol] = useState('operario');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [mostrarPassword, setMostrarPassword] = useState(false);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -37,6 +38,7 @@ export default function LoginView({ onLogin }) {
     setTipoRol(rol);
     setPassword('');
     setError('');
+    setMostrarPassword(false);
   };
 
   return (
@@ -89,28 +91,48 @@ export default function LoginView({ onLogin }) {
                 Contraseña de supervisor
               </label>
 
-              <input
-                type="password"
-                value={password}
-                onChange={(e) =>
-                  setPassword(e.target.value)
-                }
-                className="login-input"
-                placeholder="Ingresar contraseña"
-                autoFocus
-              />
+              <div className="password-input-wrapper">
+
+                <input
+                  type={mostrarPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setError('');
+                  }}
+                  className="login-input login-input-password"
+                  placeholder="Ingresar contraseña"
+                  autoFocus
+                  autoComplete="current-password"
+                />
+
+                <button
+                  type="button"
+                  className="btn-toggle-password"
+                  onClick={() =>
+                    setMostrarPassword((prev) => !prev)
+                  }
+                  aria-label={
+                    mostrarPassword
+                      ? 'Ocultar contraseña'
+                      : 'Mostrar contraseña'
+                  }
+                  title={
+                    mostrarPassword
+                      ? 'Ocultar contraseña'
+                      : 'Mostrar contraseña'
+                  }
+                >
+                  {mostrarPassword ? '🙈' : '👁'}
+                </button>
+
+              </div>
 
             </div>
           )}
 
           {tipoRol === 'operario' && (
-            <div
-              style={{
-                color: 'rgba(255,255,255,0.6)',
-                fontSize: '0.82rem',
-                textAlign: 'center'
-              }}
-            >
+            <div className="login-operario-info">
               Acceso directo al panel operativo
             </div>
           )}

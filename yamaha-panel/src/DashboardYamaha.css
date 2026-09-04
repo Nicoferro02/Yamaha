@@ -3186,6 +3186,74 @@ a:focus-visible {
   }
 }
 
+/* =========================
+   INPUT CONTRASEÑA + OJO
+========================= */
+
+.password-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.login-input-password {
+  padding-right: 48px;
+}
+
+.btn-toggle-password {
+  position: absolute;
+
+  top: 50%;
+  right: 8px;
+
+  transform: translateY(-50%);
+
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 7px;
+
+  background: transparent;
+
+  color: rgba(255, 255, 255, 0.7);
+
+  font-size: 1.05rem;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.btn-toggle-password:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+}
+
+.btn-toggle-password:focus-visible {
+  outline: 2px solid var(--y-red);
+  outline-offset: 2px;
+}
+
+.login-operario-info {
+  padding: 11px 12px;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+
+  background: rgba(255, 255, 255, 0.04);
+
+  color: rgba(255, 255, 255, 0.58);
+
+  font-size: 0.8rem;
+  text-align: center;
+}
+
 @media (
   prefers-reduced-motion:
     reduce
@@ -3200,3 +3268,4 @@ a:focus-visible {
     animation: none !important;
   }
 }
+
