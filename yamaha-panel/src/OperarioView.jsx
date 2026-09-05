@@ -176,6 +176,11 @@ export default function OperarioView({
     setTempNota('');
   };
 
+  const cancelarNota = () => {
+    setNotaActivaId(null);
+    setTempNota('');
+  };
+
   return (
     <main className="yamaha-main">
 
@@ -295,8 +300,7 @@ export default function OperarioView({
                 new Date(
                   fechaPantalla.getFullYear(),
                   fechaPantalla.getMonth(),
-                  fechaPantalla.getDate() -
-                    1
+                  fechaPantalla.getDate() - 1
                 )
               )
             }
@@ -320,9 +324,7 @@ export default function OperarioView({
               className="input-fecha-hidden"
               value={pantallaStr}
               onChange={(e) => {
-                if (
-                  e.target.value
-                ) {
+                if (e.target.value) {
                   setFechaPantalla(
                     new Date(
                       e.target.value +
@@ -343,8 +345,7 @@ export default function OperarioView({
                 new Date(
                   fechaPantalla.getFullYear(),
                   fechaPantalla.getMonth(),
-                  fechaPantalla.getDate() +
-                    1
+                  fechaPantalla.getDate() + 1
                 )
               )
             }
@@ -375,8 +376,7 @@ export default function OperarioView({
 
         </div>
 
-      ) : tareasDelDia.length ===
-        0 ? (
+      ) : tareasDelDia.length === 0 ? (
 
         <div className="empty-state">
 
@@ -438,10 +438,6 @@ export default function OperarioView({
                       src={tarea.img}
                       alt={tarea.eq}
                       className="card-imagen"
-                      onError={(e) => {
-                        e.currentTarget.style.display =
-                          'none';
-                      }}
                     />
 
                     <div className="card-image-overlay" />
@@ -466,17 +462,13 @@ export default function OperarioView({
 
                   <div className="card-body">
 
-                    <div className="card-title-group">
+                    <h3 className="equipo-titulo">
+                      {tarea.eq}
+                    </h3>
 
-                      <h3 className="equipo-titulo">
-                        {tarea.eq}
-                      </h3>
-
-                      <p className="cliente-subtitulo">
-                        {tarea.cl}
-                      </p>
-
-                    </div>
+                    <p className="cliente-subtitulo">
+                      {tarea.cl}
+                    </p>
 
                     {esCompletado &&
                       tarea.completadoPor && (
@@ -494,9 +486,7 @@ export default function OperarioView({
                             </span>
 
                             <strong>
-                              {
-                                tarea.completadoPor
-                              }
+                              {tarea.completadoPor}
                             </strong>
 
                           </div>
@@ -510,9 +500,7 @@ export default function OperarioView({
                       {tarea.excel ? (
 
                         <a
-                          href={
-                            tarea.excel
-                          }
+                          href={tarea.excel}
                           target="_blank"
                           rel="noreferrer"
                           className="btn-ver-excel"
@@ -523,8 +511,7 @@ export default function OperarioView({
                       ) : (
 
                         <div className="procedure-unavailable">
-                          ⚠ Sin procedimiento
-                          asociado
+                          ⚠ Sin procedimiento asociado
                         </div>
 
                       )}
@@ -533,29 +520,36 @@ export default function OperarioView({
 
                     <div className="seccion-notas">
 
-                      <div className="section-label-small">
+                      <span className="section-label-small">
                         OBSERVACIONES / FALLAS
-                      </div>
+                      </span>
 
                       {notaActivaId ===
                       tareaId ? (
 
-                        <div className="box-editar-nota">
+                        <div className="box-editar-nota touch-note-editor">
 
                           <textarea
-                            rows="3"
-                            placeholder="Describí una observación, anomalía o falla encontrada..."
+                            rows="5"
+                            maxLength="500"
                             value={tempNota}
                             onChange={(e) =>
                               setTempNota(
-                                e.target
-                                  .value
+                                e.target.value
                               )
                             }
+                            placeholder="Escribí aquí la observación, falla o anomalía detectada..."
                             autoFocus
+                            inputMode="text"
+                            autoCapitalize="sentences"
+                            spellCheck="true"
                           />
 
-                          <div className="acciones-nota">
+                          <div className="nota-contador">
+                            {tempNota.length} / 500
+                          </div>
+
+                          <div className="acciones-nota touch-note-actions">
 
                             <button
                               type="button"
@@ -566,21 +560,15 @@ export default function OperarioView({
                                 )
                               }
                             >
-                              Guardar
+                              ✓ Guardar observación
                             </button>
 
                             <button
                               type="button"
                               className="btn-cancel-nota"
-                              onClick={() => {
-                                setNotaActivaId(
-                                  null
-                                );
-
-                                setTempNota(
-                                  ''
-                                );
-                              }}
+                              onClick={
+                                cancelarNota
+                              }
                             >
                               Cancelar
                             </button>
@@ -593,7 +581,7 @@ export default function OperarioView({
 
                         <button
                           type="button"
-                          className={`box-ver-nota ${
+                          className={`box-ver-nota touch-add-note ${
                             notaActual
                               ? 'has-note'
                               : ''
@@ -609,23 +597,46 @@ export default function OperarioView({
                           {notaActual ? (
 
                             <>
+
                               <span className="nota-icon">
                                 ⚠
                               </span>
 
-                              <span className="nota-texto">
-                                {
-                                  notaActual
-                                }
-                              </span>
+                              <div className="nota-touch-text">
+
+                                <span className="nota-texto">
+                                  {notaActual}
+                                </span>
+
+                                <small>
+                                  Tocar para editar
+                                </small>
+
+                              </div>
+
                             </>
 
                           ) : (
 
-                            <span className="agregar-nota-link">
-                              + Agregar observación
-                              o reportar falla
-                            </span>
+                            <>
+
+                              <span className="touch-note-plus">
+                                +
+                              </span>
+
+                              <div className="nota-touch-text">
+
+                                <strong>
+                                  Agregar observación
+                                </strong>
+
+                                <small>
+                                  Tocar para escribir
+                                </small>
+
+                              </div>
+
+                            </>
 
                           )}
 
@@ -655,11 +666,9 @@ export default function OperarioView({
                         )
                       }
                     >
-
                       {esCompletado
                         ? '↺ Reabrir preventivo'
                         : '✓ Marcar como completado'}
-
                     </button>
 
                   </div>
