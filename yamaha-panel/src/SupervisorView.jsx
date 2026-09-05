@@ -884,23 +884,6 @@ export default function SupervisorView({
           type="button"
           className={`tab-supervisor ${
             subVista ===
-            'tareas-diarias'
-              ? 'active'
-              : ''
-          }`}
-          onClick={() =>
-            setSubVista(
-              'tareas-diarias'
-            )
-          }
-        >
-          ✅ Tareas diarias
-        </button>
-
-        <button
-          type="button"
-          className={`tab-supervisor ${
-            subVista ===
             'auditoria'
               ? 'active'
               : ''
@@ -929,6 +912,23 @@ export default function SupervisorView({
           }
         >
           ⚙ Maestro de Equipos
+        </button>
+
+        <button
+          type="button"
+          className={`tab-supervisor ${
+            subVista ===
+            'tareas-diarias'
+              ? 'active'
+              : ''
+          }`}
+          onClick={() =>
+            setSubVista(
+              'tareas-diarias'
+            )
+          }
+        >
+          ✅ Tareas diarias
         </button>
 
       </div>
