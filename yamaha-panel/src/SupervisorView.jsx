@@ -73,9 +73,7 @@ export default function SupervisorView({
   const [
     nuevoExcel,
     setNuevoExcel
-  ] = useState(
-    '/planillas.xlsx'
-  );
+  ] = useState('/planillas.xlsx');
 
   const [
     modalOperarios,
@@ -121,6 +119,16 @@ export default function SupervisorView({
         completadasHoy,
       0
     );
+
+  const porcentajeHoy =
+    tareasDelDia.length > 0
+      ? Math.round(
+          (
+            completadasHoy /
+            tareasDelDia.length
+          ) * 100
+        )
+      : 0;
 
   const actualizarAgendaDia = (
     nuevaLista
@@ -1122,87 +1130,171 @@ export default function SupervisorView({
 
           </section>
 
-          <section className="kpi-grid">
+          {/* =========================
+              RESUMEN MENSUAL
+          ========================= */}
 
-            <div className="kpi-card">
+          <section className="dashboard-section">
 
-              <div className="kpi-icon">
-                🛠
-              </div>
+            <div className="dashboard-section-title">
 
               <div>
 
-                <span className="kpi-label">
-                  Preventivos hoy
+                <span className="section-eyebrow">
+                  RESUMEN MENSUAL
                 </span>
 
-                <strong className="kpi-value">
-                  {
-                    tareasDelDia.length
-                  }
-                </strong>
+                <h3>
+                  Estado general del mes
+                </h3>
+
+              </div>
+
+              <span className="period-badge">
+                {mesActualFiltro}
+              </span>
+
+            </div>
+
+            <div className="kpi-grid monthly-kpis">
+
+              <div className="kpi-card">
+
+                <div className="kpi-icon">
+                  📋
+                </div>
+
+                <div>
+
+                  <span className="kpi-label">
+                    Preventivos del mes
+                  </span>
+
+                  <strong className="kpi-value">
+                    {
+                      estadisticasMes.total
+                    }
+                  </strong>
+
+                </div>
+
+              </div>
+
+              <div className="kpi-card success">
+
+                <div className="kpi-icon">
+                  ✓
+                </div>
+
+                <div>
+
+                  <span className="kpi-label">
+                    Completados del mes
+                  </span>
+
+                  <strong className="kpi-value">
+                    {
+                      estadisticasMes.completados
+                    }
+                  </strong>
+
+                </div>
+
+              </div>
+
+              <div className="kpi-card warning">
+
+                <div className="kpi-icon">
+                  !
+                </div>
+
+                <div>
+
+                  <span className="kpi-label">
+                    Pendientes del mes
+                  </span>
+
+                  <strong className="kpi-value">
+                    {
+                      estadisticasMes.pendientes
+                    }
+                  </strong>
+
+                </div>
+
+              </div>
+
+              <div className="kpi-card progress">
+
+                <div className="kpi-icon">
+                  %
+                </div>
+
+                <div>
+
+                  <span className="kpi-label">
+                    Cumplimiento mensual
+                  </span>
+
+                  <strong className="kpi-value">
+                    {
+                      estadisticasMes.porcentaje
+                    }
+                    %
+                  </strong>
+
+                </div>
+
+              </div>
+
+              <div className="kpi-card danger">
+
+                <div className="kpi-icon">
+                  ⚠
+                </div>
+
+                <div>
+
+                  <span className="kpi-label">
+                    Observaciones / Fallas
+                  </span>
+
+                  <strong className="kpi-value">
+                    {
+                      fallasMesActual.length
+                    }
+                  </strong>
+
+                </div>
 
               </div>
 
             </div>
 
-            <div className="kpi-card success">
+            <div className="monthly-progress-card">
 
-              <div className="kpi-icon">
-                ✓
-              </div>
+              <div className="monthly-progress-header">
 
-              <div>
+                <div>
 
-                <span className="kpi-label">
-                  Completados hoy
-                </span>
+                  <span>
+                    Cumplimiento mensual
+                  </span>
 
-                <strong className="kpi-value">
-                  {
-                    completadasHoy
-                  }
-                </strong>
+                  <small>
+                    {
+                      estadisticasMes.completados
+                    }{' '}
+                    de{' '}
+                    {
+                      estadisticasMes.total
+                    }{' '}
+                    preventivos completados
+                  </small>
 
-              </div>
+                </div>
 
-            </div>
-
-            <div className="kpi-card warning">
-
-              <div className="kpi-icon">
-                !
-              </div>
-
-              <div>
-
-                <span className="kpi-label">
-                  Pendientes hoy
-                </span>
-
-                <strong className="kpi-value">
-                  {
-                    pendientesHoy
-                  }
-                </strong>
-
-              </div>
-
-            </div>
-
-            <div className="kpi-card progress">
-
-              <div className="kpi-icon">
-                %
-              </div>
-
-              <div>
-
-                <span className="kpi-label">
-                  Cumplimiento mensual
-                </span>
-
-                <strong className="kpi-value">
+                <strong>
                   {
                     estadisticasMes.porcentaje
                   }
@@ -1211,31 +1303,144 @@ export default function SupervisorView({
 
               </div>
 
-            </div>
+              <div className="monthly-progress-bar">
 
-            <div className="kpi-card danger">
-
-              <div className="kpi-icon">
-                ⚠
-              </div>
-
-              <div>
-
-                <span className="kpi-label">
-                  Observaciones / Fallas
-                </span>
-
-                <strong className="kpi-value">
-                  {
-                    fallasMesActual.length
-                  }
-                </strong>
+                <div
+                  style={{
+                    width:
+                      `${estadisticasMes.porcentaje}%`
+                  }}
+                />
 
               </div>
 
             </div>
 
           </section>
+
+          {/* =========================
+              ESTADO DEL DÍA
+          ========================= */}
+
+          <section className="dashboard-section daily-section">
+
+            <div className="dashboard-section-title">
+
+              <div>
+
+                <span className="section-eyebrow">
+                  ESTADO DEL DÍA
+                </span>
+
+                <h3>
+                  Preventivos de hoy
+                </h3>
+
+              </div>
+
+              <span className="period-badge">
+                {formatearFechaDisplay(
+                  fechaPantalla
+                )}
+              </span>
+
+            </div>
+
+            <div className="kpi-grid daily-kpis">
+
+              <div className="kpi-card">
+
+                <div className="kpi-icon">
+                  🛠
+                </div>
+
+                <div>
+
+                  <span className="kpi-label">
+                    Preventivos hoy
+                  </span>
+
+                  <strong className="kpi-value">
+                    {
+                      tareasDelDia.length
+                    }
+                  </strong>
+
+                </div>
+
+              </div>
+
+              <div className="kpi-card success">
+
+                <div className="kpi-icon">
+                  ✓
+                </div>
+
+                <div>
+
+                  <span className="kpi-label">
+                    Completados hoy
+                  </span>
+
+                  <strong className="kpi-value">
+                    {
+                      completadasHoy
+                    }
+                  </strong>
+
+                </div>
+
+              </div>
+
+              <div className="kpi-card warning">
+
+                <div className="kpi-icon">
+                  !
+                </div>
+
+                <div>
+
+                  <span className="kpi-label">
+                    Pendientes hoy
+                  </span>
+
+                  <strong className="kpi-value">
+                    {
+                      pendientesHoy
+                    }
+                  </strong>
+
+                </div>
+
+              </div>
+
+              <div className="kpi-card progress">
+
+                <div className="kpi-icon">
+                  %
+                </div>
+
+                <div>
+
+                  <span className="kpi-label">
+                    Cumplimiento del día
+                  </span>
+
+                  <strong className="kpi-value">
+                    {porcentajeHoy}%
+                  </strong>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+          {/* =========================
+              ROTACIÓN SEMANAL
+          ========================= */}
 
           <section className="panel-timeline">
 
@@ -1314,6 +1519,10 @@ export default function SupervisorView({
             </div>
 
           </section>
+
+          {/* =========================
+              CONTROL DEL DÍA
+          ========================= */}
 
           <section className="panel-control-dia">
 
@@ -1404,8 +1613,7 @@ export default function SupervisorView({
                   }
                   onChange={(e) =>
                     cambiarOperarioSemana(
-                      e.target
-                        .value
+                      e.target.value
                     )
                   }
                   className="select-normal"
@@ -1440,8 +1648,7 @@ export default function SupervisorView({
                   }
                   onChange={(e) =>
                     cambiarOperarioDiario(
-                      e.target
-                        .value
+                      e.target.value
                     )
                   }
                   className="select-normal"
@@ -1771,6 +1978,10 @@ export default function SupervisorView({
 
           )}
 
+          {/* =========================
+              FALLAS DEL MES
+          ========================= */}
+
           <section className="tabla-auditoria-container fallas-panel">
 
             <div className="table-section-header">
@@ -1911,6 +2122,10 @@ export default function SupervisorView({
 
       )}
 
+      {/* =========================
+          MODAL PERSONAL
+      ========================= */}
+
       {modalOperarios && (
 
         <div
@@ -2039,6 +2254,10 @@ export default function SupervisorView({
         </div>
 
       )}
+
+      {/* =========================
+          MODAL ASIGNAR
+      ========================= */}
 
       {modalAgregarAbierto && (
 

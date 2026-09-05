@@ -3302,3 +3302,312 @@ a:focus-visible {
   }
 }
 
+/* =========================
+   DASHBOARD - SECCIONES KPI
+========================= */
+
+.dashboard-section {
+  margin-bottom: 28px;
+}
+
+.dashboard-section-title {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  margin-bottom: 13px;
+}
+
+.dashboard-section-title h3 {
+  margin: 0;
+
+  color: var(--y-black);
+
+  font-size: 1.05rem;
+}
+
+.period-badge {
+  padding: 6px 11px;
+
+  border: 1px solid var(--y-border);
+
+  border-radius: 999px;
+
+  background: white;
+
+  color: var(--y-muted);
+
+  font-size: 0.72rem;
+
+  font-weight: 800;
+}
+
+
+/* RESUMEN MENSUAL */
+
+.monthly-kpis {
+  margin-bottom: 12px;
+}
+
+.monthly-kpis .kpi-card {
+  min-height: 115px;
+}
+
+
+/* BARRA MENSUAL */
+
+.monthly-progress-card {
+  padding: 17px 19px;
+
+  border: 1px solid var(--y-border);
+
+  border-radius: 10px;
+
+  background: white;
+
+  box-shadow: var(--shadow-sm);
+}
+
+.monthly-progress-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-bottom: 11px;
+}
+
+.monthly-progress-header span {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: var(--y-dark);
+
+  font-size: 0.82rem;
+
+  font-weight: 800;
+}
+
+.monthly-progress-header small {
+  color: var(--y-muted);
+
+  font-size: 0.72rem;
+}
+
+.monthly-progress-header strong {
+  color: var(--y-success);
+
+  font-size: 1.4rem;
+}
+
+.monthly-progress-bar {
+  width: 100%;
+
+  height: 8px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: #e7eaee;
+}
+
+.monthly-progress-bar div {
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: var(--y-success);
+
+  transition: width 0.35s ease;
+}
+
+
+/* SEPARACIÓN VISUAL ENTRE MES Y DÍA */
+
+.daily-section {
+  padding-top: 4px;
+}
+
+.daily-section .dashboard-section-title {
+  padding-top: 5px;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+  .dashboard-section-title {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .monthly-progress-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+}/* =========================
+   DASHBOARD - SECCIONES KPI
+========================= */
+
+.dashboard-section {
+  margin-bottom: 28px;
+}
+
+.dashboard-section-title {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  margin-bottom: 13px;
+}
+
+.dashboard-section-title h3 {
+  margin: 0;
+
+  color: var(--y-black);
+
+  font-size: 1.05rem;
+}
+
+.period-badge {
+  padding: 6px 11px;
+
+  border: 1px solid var(--y-border);
+
+  border-radius: 999px;
+
+  background: white;
+
+  color: var(--y-muted);
+
+  font-size: 0.72rem;
+
+  font-weight: 800;
+}
+
+
+/* RESUMEN MENSUAL */
+
+.monthly-kpis {
+  margin-bottom: 12px;
+}
+
+.monthly-kpis .kpi-card {
+  min-height: 115px;
+}
+
+
+/* BARRA MENSUAL */
+
+.monthly-progress-card {
+  padding: 17px 19px;
+
+  border: 1px solid var(--y-border);
+
+  border-radius: 10px;
+
+  background: white;
+
+  box-shadow: var(--shadow-sm);
+}
+
+.monthly-progress-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-bottom: 11px;
+}
+
+.monthly-progress-header span {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: var(--y-dark);
+
+  font-size: 0.82rem;
+
+  font-weight: 800;
+}
+
+.monthly-progress-header small {
+  color: var(--y-muted);
+
+  font-size: 0.72rem;
+}
+
+.monthly-progress-header strong {
+  color: var(--y-success);
+
+  font-size: 1.4rem;
+}
+
+.monthly-progress-bar {
+  width: 100%;
+
+  height: 8px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: #e7eaee;
+}
+
+.monthly-progress-bar div {
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: var(--y-success);
+
+  transition: width 0.35s ease;
+}
+
+
+/* SEPARACIÓN VISUAL ENTRE MES Y DÍA */
+
+.daily-section {
+  padding-top: 4px;
+}
+
+.daily-section .dashboard-section-title {
+  padding-top: 5px;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+  .dashboard-section-title {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .monthly-progress-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+}
