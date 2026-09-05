@@ -4,6 +4,8 @@ import React, {
 } from 'react';
 
 import AuditoriaView from './AuditoriaView';
+import SupervisorTareasDiarias from './SupervisorTareasDiarias';
+
 
 export default function SupervisorView({
   fechaPantalla,
@@ -32,8 +34,10 @@ export default function SupervisorView({
   asignacionesDiarias,
   asignacionesSemanales
 }) {
-  const [subVista, setSubVista] =
-    useState('gestion');
+  const [
+    subVista,
+    setSubVista
+  ] = useState('gestion');
 
   const [
     editandoTareaIndex,
@@ -73,7 +77,9 @@ export default function SupervisorView({
   const [
     nuevoExcel,
     setNuevoExcel
-  ] = useState('/planillas.xlsx');
+  ] = useState(
+    '/planillas.xlsx'
+  );
 
   const [
     modalOperarios,
@@ -85,9 +91,13 @@ export default function SupervisorView({
     setNuevoOperarioNom
   ] = useState('');
 
+
   const esFinDeSemana =
-    fechaPantalla.getDay() === 0 ||
-    fechaPantalla.getDay() === 6;
+    fechaPantalla.getDay() ===
+      0 ||
+    fechaPantalla.getDay() ===
+      6;
+
 
   const tareasDelDia =
     useMemo(() => {
@@ -106,6 +116,7 @@ export default function SupervisorView({
       esFinDeSemana
     ]);
 
+
   const completadasHoy =
     tareasDelDia.filter(
       (tarea) =>
@@ -113,12 +124,14 @@ export default function SupervisorView({
         'Completado'
     ).length;
 
+
   const pendientesHoy =
     Math.max(
       tareasDelDia.length -
         completadasHoy,
       0
     );
+
 
   const porcentajeHoy =
     tareasDelDia.length > 0
@@ -130,17 +143,20 @@ export default function SupervisorView({
         )
       : 0;
 
+
   const actualizarAgendaDia = (
     nuevaLista
   ) => {
     setAgendaPorFecha(
       (prev) => ({
         ...prev,
+
         [pantallaStr]:
           nuevaLista
       })
     );
   };
+
 
   const guardarIntercambio = (
     index
@@ -154,8 +170,14 @@ export default function SupervisorView({
 
     const item =
       bancoPreventivos[
-        seleccionIndexBanco
+        Number(
+          seleccionIndexBanco
+        )
       ];
+
+    if (!item) {
+      return;
+    }
 
     const nuevaLista = [
       ...tareasDelDia
@@ -164,10 +186,18 @@ export default function SupervisorView({
     nuevaLista[index] = {
       ...nuevaLista[index],
 
-      eq: item.eq,
-      cl: item.cl,
-      img: item.img,
-      excel: item.excel
+      eq:
+        item.eq,
+
+      cl:
+        item.cl,
+
+      img:
+        item.img,
+
+      excel:
+        item.excel ||
+        '/planillas.xlsx'
     };
 
     actualizarAgendaDia(
@@ -183,6 +213,7 @@ export default function SupervisorView({
     );
   };
 
+
   const agregarPreventivo =
     () => {
       if (
@@ -193,25 +224,52 @@ export default function SupervisorView({
 
       const item =
         bancoPreventivos[
-          itemNuevoIndex
+          Number(
+            itemNuevoIndex
+          )
         ];
+
+      if (!item) {
+        return;
+      }
+
+      const id =
+        typeof crypto !==
+          'undefined' &&
+        typeof crypto.randomUUID ===
+          'function'
+          ? crypto.randomUUID()
+          : `t_${Date.now()}_${Math.random()
+              .toString(36)
+              .slice(2, 7)}`;
 
       const nuevaLista = [
         ...tareasDelDia,
 
         {
-          id: `t_${Date.now()}`,
+          id,
 
-          eq: item.eq,
-          cl: item.cl,
-          img: item.img,
+          eq:
+            item.eq,
+
+          cl:
+            item.cl,
+
+          img:
+            item.img,
 
           excel:
             item.excel ||
             '/planillas.xlsx',
 
           estado:
-            'Pendiente'
+            'Pendiente',
+
+          completadoPor:
+            null,
+
+          fechaCompletado:
+            null
         }
       ];
 
@@ -219,17 +277,25 @@ export default function SupervisorView({
         nuevaLista
       );
 
-      setItemNuevoIndex('');
+      setItemNuevoIndex(
+        ''
+      );
+
       setModalAgregarAbierto(
         false
       );
-  };
+    };
+
 
   const eliminarPreventivo = (
     index
   ) => {
     const tarea =
       tareasDelDia[index];
+
+    if (!tarea) {
+      return;
+    }
 
     const confirmar =
       window.confirm(
@@ -242,10 +308,12 @@ export default function SupervisorView({
 
     actualizarAgendaDia(
       tareasDelDia.filter(
-        (_, i) => i !== index
+        (_, i) =>
+          i !== index
       )
     );
   };
+
 
   const handleImageUpload = (
     e
@@ -258,14 +326,19 @@ export default function SupervisorView({
     }
 
     const limite =
-      2 * 1024 * 1024;
+      2 *
+      1024 *
+      1024;
 
     if (
-      file.size > limite
+      file.size >
+      limite
     ) {
       alert(
         'La imagen es demasiado pesada. Usá una imagen menor a 2 MB.'
       );
+
+      e.target.value = '';
 
       return;
     }
@@ -273,15 +346,17 @@ export default function SupervisorView({
     const reader =
       new FileReader();
 
-    reader.onloadend = () =>
-      setNuevoImg(
-        reader.result
-      );
+    reader.onloadend =
+      () =>
+        setNuevoImg(
+          reader.result
+        );
 
     reader.readAsDataURL(
       file
     );
   };
+
 
   const guardarNuevoPreventivo =
     (e) => {
@@ -302,8 +377,20 @@ export default function SupervisorView({
         nuevoImg ||
         'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=800&q=70';
 
+      const id =
+        typeof crypto !==
+          'undefined' &&
+        typeof crypto.randomUUID ===
+          'function'
+          ? crypto.randomUUID()
+          : `eq_${Date.now()}_${Math.random()
+              .toString(36)
+              .slice(2, 7)}`;
+
       const preventivoNuevo =
         {
+          id,
+
           eq:
             nuevoEquipo.trim(),
 
@@ -332,11 +419,8 @@ export default function SupervisorView({
       setNuevoExcel(
         '/planillas.xlsx'
       );
-
-      alert(
-        'Equipo agregado al Maestro de Equipos.'
-      );
     };
+
 
   const borrarDelBancoMaestro =
     (index) => {
@@ -344,6 +428,10 @@ export default function SupervisorView({
         bancoPreventivos[
           index
         ];
+
+      if (!equipo) {
+        return;
+      }
 
       const confirmar =
         window.confirm(
@@ -363,43 +451,53 @@ export default function SupervisorView({
       );
     };
 
-  const agregarOperario = () => {
-    const nombre =
-      nuevoOperarioNom.trim();
 
-    if (!nombre) {
-      return;
-    }
+  const agregarOperario =
+    () => {
+      const nombre =
+        nuevoOperarioNom.trim();
 
-    if (
-      operarios.some(
-        (op) =>
-          op.toLowerCase() ===
-          nombre.toLowerCase()
-      )
-    ) {
-      alert(
-        'Ese operario ya existe.'
+      if (!nombre) {
+        return;
+      }
+
+      if (
+        operarios.some(
+          (op) =>
+            op
+              .toLowerCase()
+              .trim() ===
+            nombre
+              .toLowerCase()
+              .trim()
+        )
+      ) {
+        alert(
+          'Ese operario ya existe.'
+        );
+
+        return;
+      }
+
+      setOperarios(
+        (prev) => [
+          ...prev,
+          nombre
+        ]
       );
 
-      return;
-    }
+      setNuevoOperarioNom(
+        ''
+      );
+    };
 
-    setOperarios(
-      (prev) => [
-        ...prev,
-        nombre
-      ]
-    );
-
-    setNuevoOperarioNom('');
-  };
 
   const borrarOperario = (
     index
   ) => {
     if (
-      operarios.length === 1
+      operarios.length ===
+      1
     ) {
       alert(
         'Debe quedar al menos un operario en el sistema.'
@@ -420,12 +518,14 @@ export default function SupervisorView({
     }
 
     setOperarios(
-      operarios.filter(
-        (_, i) =>
-          i !== index
-      )
+      (prev) =>
+        prev.filter(
+          (_, i) =>
+            i !== index
+        )
     );
   };
+
 
   const getOperarioForDate = (
     fechaStr
@@ -440,10 +540,13 @@ export default function SupervisorView({
       ];
     }
 
-    const [y, m, d] =
-      fechaStr
-        .split('-')
-        .map(Number);
+    const [
+      y,
+      m,
+      d
+    ] = fechaStr
+      .split('-')
+      .map(Number);
 
     const dateObj =
       new Date(
@@ -458,7 +561,9 @@ export default function SupervisorView({
         : dateObj.getDay();
 
     const lunesObj =
-      new Date(dateObj);
+      new Date(
+        dateObj
+      );
 
     lunesObj.setDate(
       lunesObj.getDate() -
@@ -497,15 +602,25 @@ export default function SupervisorView({
       0
     );
 
+    const referencia =
+      new Date(
+        2024,
+        0,
+        1
+      );
+
+    referencia.setHours(
+      0,
+      0,
+      0,
+      0
+    );
+
     const semanas =
       Math.floor(
         (
           lunesObj.getTime() -
-          new Date(
-            2024,
-            0,
-            1
-          ).getTime()
+          referencia.getTime()
         ) /
           (
             7 *
@@ -517,7 +632,8 @@ export default function SupervisorView({
       );
 
     if (
-      operarios.length === 0
+      operarios.length ===
+      0
     ) {
       return 'Sin Personal';
     }
@@ -533,6 +649,7 @@ export default function SupervisorView({
         operarios.length
     ];
   };
+
 
   const obtenerNotaTarea = (
     fecha,
@@ -564,11 +681,13 @@ export default function SupervisorView({
     );
   };
 
+
   const mesActualFiltro =
     `${fechaPantalla.getFullYear()}-${String(
       fechaPantalla.getMonth() +
         1
     ).padStart(2, '0')}`;
+
 
   const estadisticasMes =
     useMemo(() => {
@@ -578,7 +697,10 @@ export default function SupervisorView({
       Object.entries(
         agendaPorFecha
       ).forEach(
-        ([fecha, lista]) => {
+        ([
+          fecha,
+          lista
+        ]) => {
           if (
             !fecha.startsWith(
               mesActualFiltro
@@ -587,7 +709,13 @@ export default function SupervisorView({
             return;
           }
 
-          lista.forEach(
+          (
+            Array.isArray(
+              lista
+            )
+              ? lista
+              : []
+          ).forEach(
             (tarea) => {
               total++;
 
@@ -604,7 +732,8 @@ export default function SupervisorView({
 
       const pendientes =
         Math.max(
-          total - completados,
+          total -
+            completados,
           0
         );
 
@@ -614,8 +743,7 @@ export default function SupervisorView({
               (
                 completados /
                 total
-              ) *
-                100
+              ) * 100
             )
           : 0;
 
@@ -630,14 +758,19 @@ export default function SupervisorView({
       mesActualFiltro
     ]);
 
+
   const fallasMesActual =
     useMemo(() => {
-      const registros = [];
+      const registros =
+        [];
 
       Object.entries(
         agendaPorFecha
       ).forEach(
-        ([fecha, lista]) => {
+        ([
+          fecha,
+          lista
+        ]) => {
           if (
             !fecha.startsWith(
               mesActualFiltro
@@ -651,7 +784,13 @@ export default function SupervisorView({
               fecha
             );
 
-          lista.forEach(
+          (
+            Array.isArray(
+              lista
+            )
+              ? lista
+              : []
+          ).forEach(
             (
               tarea,
               index
@@ -665,8 +804,7 @@ export default function SupervisorView({
 
               if (
                 obs &&
-                obs !==
-                  'Sin observaciones'
+                obs.trim()
               ) {
                 registros.push({
                   fecha,
@@ -703,6 +841,7 @@ export default function SupervisorView({
       operarios
     ]);
 
+
   const formatearFechaDisplay = (
     fecha
   ) => {
@@ -717,6 +856,7 @@ export default function SupervisorView({
 
     return `${dia}/${mes}/${fecha.getFullYear()}`;
   };
+
 
   return (
     <main className="yamaha-main supervisor-main">
@@ -738,6 +878,23 @@ export default function SupervisorView({
           }
         >
           ▦ Dashboard
+        </button>
+
+        <button
+          type="button"
+          className={`tab-supervisor ${
+            subVista ===
+            'tareas-diarias'
+              ? 'active'
+              : ''
+          }`}
+          onClick={() =>
+            setSubVista(
+              'tareas-diarias'
+            )
+          }
+        >
+          ✅ Tareas diarias
         </button>
 
         <button
@@ -776,6 +933,28 @@ export default function SupervisorView({
 
       </div>
 
+
+      {subVista ===
+        'tareas-diarias' && (
+
+        <SupervisorTareasDiarias
+          fechaPantalla={
+            fechaPantalla
+          }
+          setFechaPantalla={
+            setFechaPantalla
+          }
+          pantallaStr={
+            pantallaStr
+          }
+          operarios={
+            operarios
+          }
+        />
+
+      )}
+
+
       {subVista ===
         'auditoria' && (
 
@@ -798,6 +977,7 @@ export default function SupervisorView({
         />
 
       )}
+
 
       {subVista ===
         'banco' && (
@@ -904,8 +1084,7 @@ export default function SupervisorView({
                       }
                       onChange={(e) =>
                         setNuevoEquipo(
-                          e.target
-                            .value
+                          e.target.value
                         )
                       }
                       required
@@ -926,8 +1105,7 @@ export default function SupervisorView({
                       }
                       onChange={(e) =>
                         setNuevoSector(
-                          e.target
-                            .value
+                          e.target.value
                         )
                       }
                       required
@@ -950,8 +1128,7 @@ export default function SupervisorView({
                     }
                     onChange={(e) =>
                       setNuevoExcel(
-                        e.target
-                          .value
+                        e.target.value
                       )
                     }
                     placeholder="/planillas.xlsx"
@@ -977,6 +1154,7 @@ export default function SupervisorView({
             </form>
 
           </section>
+
 
           <section className="lista-banco-existente">
 
@@ -1013,6 +1191,7 @@ export default function SupervisorView({
 
                   <article
                     key={
+                      prev.id ||
                       `${prev.eq}-${idx}`
                     }
                     className="card-tarea equipment-card"
@@ -1028,6 +1207,10 @@ export default function SupervisorView({
                           prev.eq
                         }
                         className="card-imagen"
+                        onError={(e) => {
+                          e.currentTarget.style.display =
+                            'none';
+                        }}
                       />
 
                       <button
@@ -1090,6 +1273,7 @@ export default function SupervisorView({
 
       )}
 
+
       {subVista ===
         'gestion' && (
 
@@ -1130,6 +1314,7 @@ export default function SupervisorView({
 
           </section>
 
+
           {/* =========================
               RESUMEN MENSUAL
           ========================= */}
@@ -1156,6 +1341,7 @@ export default function SupervisorView({
 
             </div>
 
+
             <div className="kpi-grid monthly-kpis">
 
               <div className="kpi-card">
@@ -1180,6 +1366,7 @@ export default function SupervisorView({
 
               </div>
 
+
               <div className="kpi-card success">
 
                 <div className="kpi-icon">
@@ -1202,6 +1389,7 @@ export default function SupervisorView({
 
               </div>
 
+
               <div className="kpi-card warning">
 
                 <div className="kpi-icon">
@@ -1223,6 +1411,7 @@ export default function SupervisorView({
                 </div>
 
               </div>
+
 
               <div className="kpi-card progress">
 
@@ -1247,6 +1436,7 @@ export default function SupervisorView({
 
               </div>
 
+
               <div className="kpi-card danger">
 
                 <div className="kpi-icon">
@@ -1270,6 +1460,7 @@ export default function SupervisorView({
               </div>
 
             </div>
+
 
             <div className="monthly-progress-card">
 
@@ -1318,6 +1509,7 @@ export default function SupervisorView({
 
           </section>
 
+
           {/* =========================
               ESTADO DEL DÍA
           ========================= */}
@@ -1346,6 +1538,7 @@ export default function SupervisorView({
 
             </div>
 
+
             <div className="kpi-grid daily-kpis">
 
               <div className="kpi-card">
@@ -1370,6 +1563,7 @@ export default function SupervisorView({
 
               </div>
 
+
               <div className="kpi-card success">
 
                 <div className="kpi-icon">
@@ -1392,6 +1586,7 @@ export default function SupervisorView({
 
               </div>
 
+
               <div className="kpi-card warning">
 
                 <div className="kpi-icon">
@@ -1413,6 +1608,7 @@ export default function SupervisorView({
                 </div>
 
               </div>
+
 
               <div className="kpi-card progress">
 
@@ -1437,6 +1633,7 @@ export default function SupervisorView({
             </div>
 
           </section>
+
 
           {/* =========================
               ROTACIÓN SEMANAL
@@ -1471,6 +1668,7 @@ export default function SupervisorView({
               </button>
 
             </div>
+
 
             <div className="timeline-boxes">
 
@@ -1520,6 +1718,7 @@ export default function SupervisorView({
 
           </section>
 
+
           {/* =========================
               CONTROL DEL DÍA
           ========================= */}
@@ -1564,13 +1763,11 @@ export default function SupervisorView({
                   }
                   onChange={(e) => {
                     if (
-                      e.target
-                        .value
+                      e.target.value
                     ) {
                       setFechaPantalla(
                         new Date(
-                          e.target
-                            .value +
+                          e.target.value +
                             'T00:00:00'
                         )
                       );
@@ -1598,6 +1795,7 @@ export default function SupervisorView({
               </button>
 
             </div>
+
 
             <div className="controles-supervisores-duales">
 
@@ -1635,6 +1833,7 @@ export default function SupervisorView({
                 </select>
 
               </div>
+
 
               <div className="selector-wrapper">
 
@@ -1675,6 +1874,7 @@ export default function SupervisorView({
 
           </section>
 
+
           {!esFinDeSemana && (
 
             <div className="barra-acciones-dia">
@@ -1706,6 +1906,7 @@ export default function SupervisorView({
             </div>
 
           )}
+
 
           {!esFinDeSemana && (
 
@@ -1745,6 +1946,10 @@ export default function SupervisorView({
                             tarea.eq
                           }
                           className="card-imagen"
+                          onError={(e) => {
+                            e.currentTarget.style.display =
+                              'none';
+                          }}
                         />
 
                         <div className="card-image-overlay" />
@@ -1776,6 +1981,7 @@ export default function SupervisorView({
                                 index
                               )
                             }
+                            aria-label="Eliminar preventivo"
                           >
                             🗑
                           </button>
@@ -1783,6 +1989,7 @@ export default function SupervisorView({
                         </div>
 
                       </div>
+
 
                       <div className="card-body">
 
@@ -1802,8 +2009,7 @@ export default function SupervisorView({
                               }
                               onChange={(e) =>
                                 setSeleccionIndexBanco(
-                                  e.target
-                                    .value
+                                  e.target.value
                                 )
                               }
                             >
@@ -1820,6 +2026,7 @@ export default function SupervisorView({
 
                                   <option
                                     key={
+                                      item.id ||
                                       idx
                                     }
                                     value={
@@ -1886,6 +2093,7 @@ export default function SupervisorView({
                               }
                             </p>
 
+
                             {completado &&
                               tarea.completadoPor && (
 
@@ -1913,6 +2121,7 @@ export default function SupervisorView({
 
                               )}
 
+
                             <div className="card-actions-row">
 
                               {tarea.excel && (
@@ -1933,11 +2142,15 @@ export default function SupervisorView({
                               <button
                                 type="button"
                                 className="btn-editar-link"
-                                onClick={() =>
+                                onClick={() => {
                                   setEditandoTareaIndex(
                                     index
-                                  )
-                                }
+                                  );
+
+                                  setSeleccionIndexBanco(
+                                    ''
+                                  );
+                                }}
                               >
                                 🔄 Cambiar
                               </button>
@@ -1955,6 +2168,7 @@ export default function SupervisorView({
                   );
                 }
               )}
+
 
               {tareasDelDia.length ===
                 0 && (
@@ -1977,6 +2191,7 @@ export default function SupervisorView({
             </div>
 
           )}
+
 
           {/* =========================
               FALLAS DEL MES
@@ -2015,9 +2230,18 @@ export default function SupervisorView({
                 <thead>
 
                   <tr>
-                    <th>Fecha</th>
-                    <th>Equipo</th>
-                    <th>Responsable</th>
+                    <th>
+                      Fecha
+                    </th>
+
+                    <th>
+                      Equipo
+                    </th>
+
+                    <th>
+                      Responsable
+                    </th>
+
                     <th>
                       Observación / Falla
                     </th>
@@ -2122,6 +2346,7 @@ export default function SupervisorView({
 
       )}
 
+
       {/* =========================
           MODAL PERSONAL
       ========================= */}
@@ -2172,6 +2397,7 @@ export default function SupervisorView({
 
             </div>
 
+
             <div className="lista-operarios-modal">
 
               {operarios.map(
@@ -2214,6 +2440,7 @@ export default function SupervisorView({
 
             </div>
 
+
             <div className="add-person-row">
 
               <input
@@ -2255,8 +2482,9 @@ export default function SupervisorView({
 
       )}
 
+
       {/* =========================
-          MODAL ASIGNAR
+          MODAL ASIGNAR PREVENTIVO
       ========================= */}
 
       {modalAgregarAbierto && (
@@ -2305,6 +2533,7 @@ export default function SupervisorView({
 
             </div>
 
+
             <select
               className="edicion-select"
               value={
@@ -2328,7 +2557,10 @@ export default function SupervisorView({
                 ) => (
 
                   <option
-                    key={idx}
+                    key={
+                      item.id ||
+                      idx
+                    }
                     value={idx}
                   >
                     {item.eq}
@@ -2338,6 +2570,7 @@ export default function SupervisorView({
               )}
 
             </select>
+
 
             <div className="edicion-acciones">
 
@@ -2354,11 +2587,15 @@ export default function SupervisorView({
               <button
                 type="button"
                 className="btn-cancelar"
-                onClick={() =>
+                onClick={() => {
                   setModalAgregarAbierto(
                     false
-                  )
-                }
+                  );
+
+                  setItemNuevoIndex(
+                    ''
+                  );
+                }}
               >
                 Cancelar
               </button>

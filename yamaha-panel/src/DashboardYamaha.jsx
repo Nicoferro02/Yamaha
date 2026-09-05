@@ -1,79 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import React, {
+  useEffect,
+  useMemo,
+  useState
+} from 'react';
+
 import LoginView from './LoginView';
 import OperarioView from './OperarioView';
 import SupervisorView from './SupervisorView';
+import TareasDiariasView from './TareasDiariasView';
+
 import './DashboardYamaha.css';
 
-const BANCO_INICIAL = [
-  { eq: 'Línea A (Panel, Fuerza Motriz, Clamps).', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_1/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Marcadora Línea A', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_2/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Prensa Línea A', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_3/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Brazo Ingrávido DALMEC No.3', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_4/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Inyectora de liquido de freno N°1', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_5/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Inyectora de liquido de freno ABS', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_6/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Inyectora Refrigerante', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_7/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Máquina Inyectora de Combustible N°1(Neumática)', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_8/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Dinamometro A', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_9/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Plataformas Lextral.', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_10/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Línea de producción (Línea A)', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_11/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Línea B (Fuerza Motriz y Central Hidráulica).', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_12/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Prensa No.2', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_13/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Marcadora B (telesis TMP3200/TMC420)', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_14/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Marcadora portatil', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_15/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Brazo Ingrávido DALMEC No.2', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_16/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Brazo Ingrávido RAKU-RAKU', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_17/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Máquina Inyectora de Líquido de Frenos N°2', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_18/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Máquina Inyectora de Combustible N°2 (Eléctrica)', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_19/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Tanque de Traspaso de Combustible', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_20/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Aparejo (Descenso de unidades línea)', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_21/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Carros de Línea B (Piezas, MC y Clamps)', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_22/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Línea de producción (Línea B)', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_23/500/300', excel: '/planillas.xlsx' },
-  { eq: 'FR de Linea B', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_24/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Banco de Baterías', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_25/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Dinamómetro B', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_26/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Dinamómetro ATV', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_27/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Prensa Ruedas (Neumática)', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_28/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Prensa No.1', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_29/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Prensa ATV', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_30/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Prensa Horquillones 1', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_31/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Prensa Horquillones 2', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_32/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Plataforma AlmatecCKD Horquillas', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_33/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Plataforma de ruedas CKD', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_34/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Plataforma AlmatecCKD Motores', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_35/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Brazo Ingrávido DALMEC No.1', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_36/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Carro Motores', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_37/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Dispositivos de equipos de izaje (Ganchos y Eslingas)', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_38/500/300', excel: '/planillas.xlsx' },
-  { eq: 'BER 1 Plataforma Elevadoras de MC (Reparaciones)', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_39/500/300', excel: '/planillas.xlsx' },
-  { eq: 'BER 2 Plataforma Elevadoras de MC (Reparaciones)', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_40/500/300', excel: '/planillas.xlsx' },
-  { eq: 'BER 3 Plataforma Elevadoras de MC (Reparaciones)', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_41/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Máquina Succionadora de Combustible 2', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_42/500/300', excel: '/planillas.xlsx' },
-  { eq: 'BEL Plataforma Elevadoras de MC (1) (Packing)', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_43/500/300', excel: '/planillas.xlsx' },
-  { eq: 'BEC 1 Plataforma Elevadoras de MC (Sala Endurance Test)', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_44/500/300', excel: '/planillas.xlsx' },
-  { eq: 'BEC 2 Plataforma Elevadoras de MC(Sala Endurance Test)', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_45/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Auto elevador No.5 (Y)', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_46/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Auto elevador No.7 (T)', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_47/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Auto elevador No.9 (Y)', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_48/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Auto elevador No.10 (Y) (Ex autoelevador 1)', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_49/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Apiladora Eléctrica No.1 (Y)', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_50/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Apiladora Eléctrica No.2 (Y)', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_51/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Cargador de Baterías Apliladores N°1 y N°2.', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_52/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Enfardadoras 1', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_53/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Enfardadoras 2', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_54/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Aparejo Pórtico', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_55/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Plataforma de descarga de contenedores (Eléctrica)', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_56/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Plataforma de descarga de contenedores (Hidráulica)', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_57/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Sistemas de Almacenamiento (tanques Gas-oil x 2 y nafta, bombas de impulsión y sistema de carga, cañerías)', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_58/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Apilador hidráulico Manual (Cantidad 3)', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_59/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Aparejo de taller de mantenimiento no esta en vigencia', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_60/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Aparejo manual de servicio técnico', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_61/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Plataforma Almatec ATV', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_62/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Bandera de chasis (CKD) 1', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_63/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Bandera de chasis (CKD) 2 no esta en vigencia', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_64/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Herramientas eléctricas Angulares', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_65/500/300', excel: '/planillas.xlsx' },
-  { eq: 'Sala de Compresores (Sist. de Filtrado, Pulmones, Secadores)', cl: 'Sector Producción', img: 'https://picsum.photos/seed/yamaha_66/500/300', excel: '/planillas.xlsx' }
-];
+const AUTH_KEY =
+  'yamaha_auth_user_v16';
 
-const OP_INICIALES = [
+const OPERARIOS_KEY =
+  'yamaha_operarios_v16';
+
+const BANCO_KEY =
+  'yamaha_banco_v16';
+
+const SEMANALES_KEY =
+  'yamaha_semanales_v16';
+
+const DIARIAS_KEY =
+  'yamaha_diarias_v16';
+
+const AGENDA_KEY =
+  'yamaha_agenda_v16';
+
+const NOTAS_KEY =
+  'yamaha_notas_v16';
+
+
+const OPERARIOS_INICIALES = [
   'Mauro Barrios',
   'Julian Janowicz',
   'Gabriel Gonzales',
@@ -81,406 +41,1045 @@ const OP_INICIALES = [
   'Ferro Nicolas'
 ];
 
-const leerDatosSeguros = (key, valorPorDefecto = {}) => {
-  try {
-    const data = localStorage.getItem(key);
-    return data ? JSON.parse(data) : valorPorDefecto;
-  } catch {
-    return valorPorDefecto;
-  }
-};
 
-const normalizarBanco = (banco) => {
-  if (!Array.isArray(banco)) {
+const PREVENTIVOS_BASE = [
+  [6, 'Línea A (Panel, Fuerza Motriz, Clamps).'],
+  [7, 'Marcadora Línea A'],
+  [8, 'Prensa Línea A'],
+  [9, 'Brazo Ingrávido DALMEC No.3'],
+  [10, 'Inyectora de liquido de freno N°1'],
+  [11, 'Inyectora de liquido de freno ABS'],
+  [12, 'Inyectora Refrigerante'],
+  [13, 'Máquina Inyectora de Combustible N°1(Neumática)'],
+  [14, 'Dinamometro A'],
+  [15, 'Plataformas Lextral.'],
+  [16, 'Línea de producción (Línea A)'],
+  [17, 'Línea B (Fuerza Motriz y Central Hidráulica).'],
+  [18, 'Prensa No.2'],
+  [19, 'Marcadora B (telesis TMP3200/TMC420)'],
+  [20, 'Marcadora portatil'],
+  [21, 'Brazo Ingrávido DALMEC No.2'],
+  [22, 'Brazo Ingrávido RAKU-RAKU'],
+  [23, 'Máquina Inyectora de Líquido de Frenos N°2'],
+  [24, 'Máquina Inyectora de Combustible N°2 (Eléctrica)'],
+  [25, 'Tanque de Traspaso de Combustible'],
+  [26, 'Aparejo (Descenso de unidades línea)'],
+  [27, 'Carros de Línea B (Piezas, MC y Clamps)'],
+  [28, 'Línea de producción (Línea B)'],
+  [29, 'FR de Linea B'],
+  [30, 'Banco de Baterías'],
+  [31, 'Dinamómetro B'],
+  [32, 'Dinamómetro ATV'],
+  [34, 'Prensa Ruedas (Neumática)'],
+  [35, 'Prensa No.1'],
+  [36, 'Prensa ATV'],
+  [37, 'Prensa Horquillones 1'],
+  [38, 'Prensa Horquillones 2'],
+  [39, 'Plataforma AlmatecCKD Horquillas'],
+  [40, 'Plataforma de ruedas CKD'],
+  [41, 'Plataforma AlmatecCKD Motores'],
+  [42, 'Brazo Ingrávido DALMEC No.1'],
+  [43, 'Carro Motores'],
+  [44, 'Dispositivos de equipos de izaje (Ganchos y Eslingas)'],
+  [46, 'BER 1 Plataforma Elevadoras de MC (Reparaciones)'],
+  [47, 'BER 2 Plataforma Elevadoras de MC (Reparaciones)'],
+  [48, 'BER 3 Plataforma Elevadoras de MC (Reparaciones)'],
+  [49, 'Máquina Succionadora de Combustible 2'],
+  [50, 'BEL Plataforma Elevadoras de MC (1) (Packing)'],
+  [51, 'BEC 1 Plataforma Elevadoras de MC (Sala Endurance Test)'],
+  [52, 'BEC 2 Plataforma Elevadoras de MC(Sala Endurance Test)'],
+  [53, 'Auto elevador No.5 (Y)'],
+  [54, 'Auto elevador No.7 (T)'],
+  [55, 'Auto elevador No.9 (Y)'],
+  [56, 'Auto elevador No.10 (Y) (Ex autoelevador 1)'],
+  [57, 'Apiladora Eléctrica No.1 (Y)'],
+  [58, 'Apiladora Eléctrica No.2 (Y)'],
+  [59, 'Cargador de Baterías Apliladores N°1 y N°2.'],
+  [60, 'Enfardadoras 1'],
+  [61, 'Enfardadoras 2'],
+  [62, 'Aparejo Pórtico'],
+  [63, 'Plataforma de descarga de contenedores (Eléctrica)'],
+  [64, 'Plataforma de descarga de contenedores (Hidráulica)'],
+  [65, 'Sistemas de Almacenamiento (tanques Gas-oil x 2 y nafta, bombas de impulsión y sistema de carga, cañerías)'],
+  [66, 'Apilador hidráulico Manual (Cantidad 3)'],
+  [81, 'Aparejo de taller de mantenimiento no esta en vigencia'],
+  [83, 'Aparejo manual de servicio técnico'],
+  [84, 'Plataforma Almatec ATV'],
+  [85, 'Bandera de chasis (CKD) 1'],
+  [86, 'Bandera de chasis (CKD) 2 no esta en vigencia'],
+  [88, 'Herramientas eléctricas Angulares'],
+  [90, 'Sala de Compresores (Sist. de Filtrado, Pulmones, Secadores)']
+];
+
+
+const BANCO_INICIAL =
+  PREVENTIVOS_BASE.map(
+    ([id, nombre], index) => ({
+      id: `eq_${id}`,
+      hoja: id,
+      eq: nombre,
+      cl: 'Yamaha Motor Argentina',
+      img:
+        `https://picsum.photos/seed/yamaha-equipo-${index + 1}/900/600`,
+      excel:
+        '/planillas.xlsx'
+    })
+  );
+
+
+function leerLocalStorage(
+  key,
+  fallback
+) {
+  try {
+    const guardado =
+      localStorage.getItem(key);
+
+    if (!guardado) {
+      return fallback;
+    }
+
+    return JSON.parse(
+      guardado
+    );
+  } catch (error) {
+    console.error(
+      `Error leyendo ${key}:`,
+      error
+    );
+
+    return fallback;
+  }
+}
+
+
+function guardarLocalStorage(
+  key,
+  valor
+) {
+  try {
+    localStorage.setItem(
+      key,
+      JSON.stringify(valor)
+    );
+  } catch (error) {
+    console.error(
+      `Error guardando ${key}:`,
+      error
+    );
+  }
+}
+
+
+function obtenerFechaLocal(
+  fecha = new Date()
+) {
+  const anio =
+    fecha.getFullYear();
+
+  const mes = String(
+    fecha.getMonth() + 1
+  ).padStart(2, '0');
+
+  const dia = String(
+    fecha.getDate()
+  ).padStart(2, '0');
+
+  return `${anio}-${mes}-${dia}`;
+}
+
+
+function obtenerLunes(
+  fecha
+) {
+  const copia =
+    new Date(fecha);
+
+  copia.setHours(
+    0,
+    0,
+    0,
+    0
+  );
+
+  const dia =
+    copia.getDay() === 0
+      ? 7
+      : copia.getDay();
+
+  copia.setDate(
+    copia.getDate() -
+      dia +
+      1
+  );
+
+  return copia;
+}
+
+
+function sumarDias(
+  fecha,
+  dias
+) {
+  const copia =
+    new Date(fecha);
+
+  copia.setDate(
+    copia.getDate() +
+      dias
+  );
+
+  return copia;
+}
+
+
+function crearIdTareaPreventiva(
+  fechaStr,
+  index
+) {
+  if (
+    typeof crypto !==
+      'undefined' &&
+    typeof crypto.randomUUID ===
+      'function'
+  ) {
+    return crypto.randomUUID();
+  }
+
+  return `t_${fechaStr}_${index}_${Date.now()}_${Math.random()
+    .toString(36)
+    .slice(2, 7)}`;
+}
+
+
+function normalizarBanco(
+  banco
+) {
+  if (
+    !Array.isArray(banco) ||
+    banco.length === 0
+  ) {
     return BANCO_INICIAL;
   }
 
-  return banco.map((item) => ({
-    ...item,
-    excel: '/planillas.xlsx'
-  }));
-};
+  return banco.map(
+    (item, index) => ({
+      ...item,
+
+      id:
+        item.id ||
+        `eq_custom_${index}`,
+
+      cl:
+        item.cl ||
+        'Yamaha Motor Argentina',
+
+      img:
+        item.img ||
+        `https://picsum.photos/seed/yamaha-equipo-${index + 1}/900/600`,
+
+      excel:
+        '/planillas.xlsx'
+    })
+  );
+}
+
 
 export default function DashboardYamaha() {
-  const [currentUser, setCurrentUser] = useState(() =>
-    leerDatosSeguros('yamaha_auth_user_v16', null)
+  const [
+    currentUser,
+    setCurrentUser
+  ] = useState(
+    () =>
+      leerLocalStorage(
+        AUTH_KEY,
+        null
+      )
   );
 
-  const [fechaPantalla, setFechaPantalla] = useState(new Date());
-
-  const [operarios, setOperarios] = useState(() =>
-    leerDatosSeguros('yamaha_operarios_v16', OP_INICIALES)
+  const [
+    operarios,
+    setOperarios
+  ] = useState(
+    () =>
+      leerLocalStorage(
+        OPERARIOS_KEY,
+        OPERARIOS_INICIALES
+      )
   );
 
-  const [bancoPreventivos, setBancoPreventivos] = useState(() =>
-    normalizarBanco(
-      leerDatosSeguros('yamaha_banco_v16', BANCO_INICIAL)
-    )
+  const [
+    bancoPreventivos,
+    setBancoPreventivos
+  ] = useState(
+    () =>
+      normalizarBanco(
+        leerLocalStorage(
+          BANCO_KEY,
+          BANCO_INICIAL
+        )
+      )
   );
 
-  const [asignacionesSemanales, setAsignacionesSemanales] = useState(() =>
-    leerDatosSeguros('yamaha_semanales_v16')
+  const [
+    asignacionesSemanales,
+    setAsignacionesSemanales
+  ] = useState(
+    () =>
+      leerLocalStorage(
+        SEMANALES_KEY,
+        {}
+      )
   );
 
-  const [asignacionesDiarias, setAsignacionesDiarias] = useState(() =>
-    leerDatosSeguros('yamaha_diarias_v16')
+  const [
+    asignacionesDiarias,
+    setAsignacionesDiarias
+  ] = useState(
+    () =>
+      leerLocalStorage(
+        DIARIAS_KEY,
+        {}
+      )
   );
 
-  const [agendaPorFecha, setAgendaPorFecha] = useState(() =>
-    leerDatosSeguros('yamaha_agenda_v16')
+  const [
+    agendaPorFecha,
+    setAgendaPorFecha
+  ] = useState(
+    () =>
+      leerLocalStorage(
+        AGENDA_KEY,
+        {}
+      )
   );
 
-  const [notasTareas, setNotasTareas] = useState(() =>
-    leerDatosSeguros('yamaha_notas_v16')
+  const [
+    notasTareas,
+    setNotasTareas
+  ] = useState(
+    () =>
+      leerLocalStorage(
+        NOTAS_KEY,
+        {}
+      )
   );
+
+  const [
+    fechaPantalla,
+    setFechaPantalla
+  ] = useState(
+    () => new Date()
+  );
+
+
+  const pantallaStr =
+    obtenerFechaLocal(
+      fechaPantalla
+    );
+
 
   useEffect(() => {
-    localStorage.setItem('yamaha_auth_user_v16', JSON.stringify(currentUser));
-    localStorage.setItem('yamaha_operarios_v16', JSON.stringify(operarios));
-    localStorage.setItem('yamaha_banco_v16', JSON.stringify(bancoPreventivos));
-    localStorage.setItem('yamaha_semanales_v16', JSON.stringify(asignacionesSemanales));
-    localStorage.setItem('yamaha_diarias_v16', JSON.stringify(asignacionesDiarias));
-    localStorage.setItem('yamaha_agenda_v16', JSON.stringify(agendaPorFecha));
-    localStorage.setItem('yamaha_notas_v16', JSON.stringify(notasTareas));
+    if (currentUser) {
+      guardarLocalStorage(
+        AUTH_KEY,
+        currentUser
+      );
+    }
+  }, [currentUser]);
+
+
+  useEffect(() => {
+    guardarLocalStorage(
+      OPERARIOS_KEY,
+      operarios
+    );
+  }, [operarios]);
+
+
+  useEffect(() => {
+    guardarLocalStorage(
+      BANCO_KEY,
+      bancoPreventivos
+    );
+  }, [bancoPreventivos]);
+
+
+  useEffect(() => {
+    guardarLocalStorage(
+      SEMANALES_KEY,
+      asignacionesSemanales
+    );
   }, [
-    currentUser,
-    operarios,
-    bancoPreventivos,
-    asignacionesSemanales,
-    asignacionesDiarias,
-    agendaPorFecha,
-    notasTareas
+    asignacionesSemanales
   ]);
 
+
   useEffect(() => {
-    const currentYear = fechaPantalla.getFullYear();
-    const currentMonth = fechaPantalla.getMonth();
+    guardarLocalStorage(
+      DIARIAS_KEY,
+      asignacionesDiarias
+    );
+  }, [
+    asignacionesDiarias
+  ]);
 
-    const strMesActual =
-      `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`;
 
-    setAgendaPorFecha((prevAgenda) => {
-      const yaTieneTareasEsteMes = Object.keys(prevAgenda).some((key) =>
-        key.startsWith(strMesActual)
+  useEffect(() => {
+    guardarLocalStorage(
+      AGENDA_KEY,
+      agendaPorFecha
+    );
+  }, [agendaPorFecha]);
+
+
+  useEffect(() => {
+    guardarLocalStorage(
+      NOTAS_KEY,
+      notasTareas
+    );
+  }, [notasTareas]);
+
+
+  /*
+    Si el mes elegido todavía no tiene tareas
+    pero el mes anterior sí, copiamos la misma
+    estructura por número de día de semana.
+
+    Importante:
+    - el estado vuelve a Pendiente
+    - NO se copia quién lo completó
+    - NO se copia la fecha de cierre
+  */
+  useEffect(() => {
+    const anio =
+      fechaPantalla.getFullYear();
+
+    const mes =
+      fechaPantalla.getMonth();
+
+    const prefijoMes =
+      `${anio}-${String(
+        mes + 1
+      ).padStart(2, '0')}`;
+
+    const yaTieneMes =
+      Object.keys(
+        agendaPorFecha
+      ).some(
+        (fecha) =>
+          fecha.startsWith(
+            prefijoMes
+          )
       );
 
-      if (yaTieneTareasEsteMes) {
-        return prevAgenda;
-      }
+    if (yaTieneMes) {
+      return;
+    }
 
-      const prevMonth = currentMonth === 0 ? 11 : currentMonth - 1;
-      const prevYear = currentMonth === 0 ? currentYear - 1 : currentYear;
-
-      const strMesPasado =
-        `${prevYear}-${String(prevMonth + 1).padStart(2, '0')}`;
-
-      const tareasPrev = Object.keys(prevAgenda).filter((key) =>
-        key.startsWith(strMesPasado)
+    const mesAnterior =
+      new Date(
+        anio,
+        mes - 1,
+        1
       );
 
-      if (tareasPrev.length === 0) {
-        return prevAgenda;
-      }
+    const prefijoAnterior =
+      `${mesAnterior.getFullYear()}-${String(
+        mesAnterior.getMonth() +
+          1
+      ).padStart(2, '0')}`;
 
-      const nuevaAgenda = { ...prevAgenda };
+    const fechasAnterior =
+      Object.keys(
+        agendaPorFecha
+      ).filter(
+        (fecha) =>
+          fecha.startsWith(
+            prefijoAnterior
+          ) &&
+          (
+            agendaPorFecha[
+              fecha
+            ] || []
+          ).length > 0
+      );
 
-      let huboClonado = false;
-      let diaHabilActual = 0;
+    if (
+      fechasAnterior.length ===
+      0
+    ) {
+      return;
+    }
 
-      for (let i = 1; i <= 31; i++) {
-        const dActual = new Date(
-          currentYear,
-          currentMonth,
-          i
-        );
+    const agrupadoPorDia =
+      {};
 
-        if (dActual.getMonth() !== currentMonth) {
-          break;
-        }
+    fechasAnterior.forEach(
+      (fechaStr) => {
+        const fecha =
+          new Date(
+            `${fechaStr}T00:00:00`
+          );
+
+        const diaSemana =
+          fecha.getDay();
 
         if (
-          dActual.getDay() !== 0 &&
-          dActual.getDay() !== 6
+          !agrupadoPorDia[
+            diaSemana
+          ]
         ) {
-          diaHabilActual++;
-
-          let diaHabilPrev = 0;
-
-          for (let j = 1; j <= 31; j++) {
-            const dPrev = new Date(
-              prevYear,
-              prevMonth,
-              j
-            );
-
-            if (dPrev.getMonth() !== prevMonth) {
-              break;
-            }
-
-            if (
-              dPrev.getDay() !== 0 &&
-              dPrev.getDay() !== 6
-            ) {
-              diaHabilPrev++;
-
-              if (diaHabilPrev === diaHabilActual) {
-                const keyPrev =
-                  `${dPrev.getFullYear()}-${String(
-                    dPrev.getMonth() + 1
-                  ).padStart(2, '0')}-${String(
-                    dPrev.getDate()
-                  ).padStart(2, '0')}`;
-
-                if (
-                  nuevaAgenda[keyPrev] &&
-                  nuevaAgenda[keyPrev].length > 0
-                ) {
-                  const keyActual =
-                    `${dActual.getFullYear()}-${String(
-                      dActual.getMonth() + 1
-                    ).padStart(2, '0')}-${String(
-                      dActual.getDate()
-                    ).padStart(2, '0')}`;
-
-                  nuevaAgenda[keyActual] =
-                    nuevaAgenda[keyPrev].map((tarea) => ({
-                      ...tarea,
-                      estado: 'Pendiente'
-                    }));
-
-                  huboClonado = true;
-                }
-
-                break;
-              }
-            }
-          }
+          agrupadoPorDia[
+            diaSemana
+          ] = [];
         }
+
+        agrupadoPorDia[
+          diaSemana
+        ].push(
+          agendaPorFecha[
+            fechaStr
+          ] || []
+        );
+      }
+    );
+
+    Object.values(
+      agrupadoPorDia
+    ).forEach(
+      (listas) => {
+        listas.reverse();
+      }
+    );
+
+    const diasMes =
+      new Date(
+        anio,
+        mes + 1,
+        0
+      ).getDate();
+
+    const nuevoMes = {};
+
+    for (
+      let dia = 1;
+      dia <= diasMes;
+      dia++
+    ) {
+      const fecha =
+        new Date(
+          anio,
+          mes,
+          dia
+        );
+
+      const diaSemana =
+        fecha.getDay();
+
+      if (
+        diaSemana === 0 ||
+        diaSemana === 6
+      ) {
+        continue;
       }
 
-      return huboClonado
-        ? nuevaAgenda
-        : prevAgenda;
-    });
+      const candidatas =
+        agrupadoPorDia[
+          diaSemana
+        ];
+
+      if (
+        !candidatas ||
+        candidatas.length === 0
+      ) {
+        continue;
+      }
+
+      const listaBase =
+        candidatas[
+          (dia - 1) %
+            candidatas.length
+        ];
+
+      const fechaStr =
+        obtenerFechaLocal(
+          fecha
+        );
+
+      nuevoMes[
+        fechaStr
+      ] = listaBase.map(
+        (tarea, index) => ({
+          ...tarea,
+
+          id:
+            crearIdTareaPreventiva(
+              fechaStr,
+              index
+            ),
+
+          estado:
+            'Pendiente',
+
+          completadoPor:
+            null,
+
+          fechaCompletado:
+            null,
+
+          excel:
+            tarea.excel ||
+            '/planillas.xlsx'
+        })
+      );
+    }
+
+    if (
+      Object.keys(
+        nuevoMes
+      ).length > 0
+    ) {
+      setAgendaPorFecha(
+        (prev) => ({
+          ...prev,
+          ...nuevoMes
+        })
+      );
+    }
   }, [
-    fechaPantalla.getFullYear(),
-    fechaPantalla.getMonth()
+    fechaPantalla,
+    agendaPorFecha
   ]);
 
-  if (!currentUser) {
-    return (
-      <LoginView
-        onLogin={(user) =>
-          setCurrentUser(user)
-        }
-      />
-    );
-  }
 
-  const getLunesSemana = (fecha) => {
-    const d = new Date(fecha);
-
-    const dia =
-      d.getDay() === 0
-        ? 7
-        : d.getDay();
-
-    d.setDate(
-      d.getDate() - dia + 1
-    );
-
-    return `${d.getFullYear()}-${String(
-      d.getMonth() + 1
-    ).padStart(2, '0')}-${String(
-      d.getDate()
-    ).padStart(2, '0')}`;
-  };
-
-  const getOperarioSemanaMatematico = (fecha) => {
+  const getOperarioForDate = (
+    fechaStr
+  ) => {
     if (
-      !operarios ||
+      asignacionesDiarias[
+        fechaStr
+      ]
+    ) {
+      return asignacionesDiarias[
+        fechaStr
+      ];
+    }
+
+    const [
+      y,
+      m,
+      d
+    ] = fechaStr
+      .split('-')
+      .map(Number);
+
+    const fecha =
+      new Date(
+        y,
+        m - 1,
+        d
+      );
+
+    const lunes =
+      obtenerLunes(fecha);
+
+    const lunesKey =
+      obtenerFechaLocal(
+        lunes
+      );
+
+    if (
+      asignacionesSemanales[
+        lunesKey
+      ]
+    ) {
+      return asignacionesSemanales[
+        lunesKey
+      ];
+    }
+
+    if (
       operarios.length === 0
     ) {
       return 'Sin Personal';
     }
 
-    const d = new Date(fecha);
+    const referencia =
+      new Date(
+        2024,
+        0,
+        1
+      );
 
-    const dia =
-      d.getDay() === 0
-        ? 7
-        : d.getDay();
-
-    d.setDate(
-      d.getDate() - dia + 1
-    );
-
-    d.setHours(
+    referencia.setHours(
       0,
       0,
       0,
       0
     );
 
-    const semanas = Math.floor(
+    const semanas =
+      Math.floor(
+        (
+          lunes.getTime() -
+          referencia.getTime()
+        ) /
+          (
+            7 *
+            24 *
+            60 *
+            60 *
+            1000
+          )
+      );
+
+    const indice =
       (
-        d.getTime() -
-        new Date(2024, 0, 1).getTime()
-      ) /
-      (
-        7 *
-        24 *
-        60 *
-        60 *
-        1000
-      )
-    );
+        (
+          semanas %
+          operarios.length
+        ) +
+        operarios.length
+      ) %
+      operarios.length;
 
     return operarios[
-      ((semanas % operarios.length) + operarios.length) %
-        operarios.length
+      indice
     ];
   };
 
-  const getOperarioPorSemana = (fecha, offset = 0) => {
-    const d = new Date(
-      fecha.getFullYear(),
-      fecha.getMonth(),
-      fecha.getDate() + offset * 7
+
+  const obtenerOperarioSemana =
+    (offsetSemanas) => {
+      const lunesActual =
+        obtenerLunes(
+          fechaPantalla
+        );
+
+      const lunes =
+        sumarDias(
+          lunesActual,
+          offsetSemanas * 7
+        );
+
+      return getOperarioForDate(
+        obtenerFechaLocal(
+          lunes
+        )
+      );
+    };
+
+
+  const operarioSemanaAnterior =
+    obtenerOperarioSemana(-1);
+
+  const operarioSemanaActual =
+    obtenerOperarioSemana(0);
+
+  const operarioProximaSemana =
+    obtenerOperarioSemana(1);
+
+  const operarioDelDia =
+    getOperarioForDate(
+      pantallaStr
     );
 
-    return (
-      asignacionesSemanales[getLunesSemana(d)] ||
-      getOperarioSemanaMatematico(d)
+
+  const cambiarOperarioSemana = (
+    nuevoOperario
+  ) => {
+    const lunes =
+      obtenerLunes(
+        fechaPantalla
+      );
+
+    const lunesKey =
+      obtenerFechaLocal(
+        lunes
+      );
+
+    setAsignacionesSemanales(
+      (prev) => ({
+        ...prev,
+        [lunesKey]:
+          nuevoOperario
+      })
     );
   };
 
-  const pantallaStr =
-    `${fechaPantalla.getFullYear()}-${String(
-      fechaPantalla.getMonth() + 1
-    ).padStart(2, '0')}-${String(
-      fechaPantalla.getDate()
-    ).padStart(2, '0')}`;
 
-  const operarioDelDia =
-    asignacionesDiarias[pantallaStr] ||
-    getOperarioPorSemana(fechaPantalla, 0);
+  const cambiarOperarioDiario = (
+    nuevoOperario
+  ) => {
+    setAsignacionesDiarias(
+      (prev) => ({
+        ...prev,
+        [pantallaStr]:
+          nuevoOperario
+      })
+    );
+  };
 
-  const mesActualStr =
-    `${fechaPantalla.getFullYear()}-${String(
-      fechaPantalla.getMonth() + 1
-    ).padStart(2, '0')}`;
 
-  let tareasMes = 0;
-  let completadosMes = 0;
+  const tareasDiaActual =
+    agendaPorFecha[
+      pantallaStr
+    ] || [];
 
-  Object.keys(agendaPorFecha).forEach((key) => {
-    if (key.startsWith(mesActualStr)) {
-      agendaPorFecha[key].forEach((tarea) => {
-        tareasMes++;
+  const totalHoy =
+    tareasDiaActual.length;
 
-        if (tarea.estado === 'Completado') {
-          completadosMes++;
-        }
-      });
-    }
-  });
+  const completadasHoy =
+    tareasDiaActual.filter(
+      (tarea) =>
+        tarea.estado ===
+        'Completado'
+    ).length;
+
+  const porcentajeHoy =
+    totalHoy > 0
+      ? Math.round(
+          (
+            completadasHoy /
+            totalHoy
+          ) * 100
+        )
+      : 0;
+
+
+  const nombreRol =
+    currentUser?.role ===
+    'supervisor'
+      ? 'Supervisor'
+      : currentUser?.role ===
+          'tareas'
+        ? 'Tareas diarias'
+        : 'Operario';
+
+
+  const handleLogin = (
+    usuario
+  ) => {
+    setCurrentUser(
+      usuario
+    );
+
+    guardarLocalStorage(
+      AUTH_KEY,
+      usuario
+    );
+  };
+
+
+  const handleLogout = () => {
+    localStorage.removeItem(
+      AUTH_KEY
+    );
+
+    setCurrentUser(null);
+  };
+
+
+  if (!currentUser) {
+    return (
+      <LoginView
+        onLogin={handleLogin}
+      />
+    );
+  }
+
 
   return (
     <div className="yamaha-container">
+
       <header className="yamaha-header">
+
         <div className="header-titles">
-          <h1>YAMAHA MOTOR ARGENTINA</h1>
-          <h2>GESTIÓN INDUSTRIAL</h2>
+
+          <h1>
+            YAMAHA MOTOR
+          </h1>
+
+          <h2>
+            SISTEMA INTEGRAL DE
+            MANTENIMIENTO
+          </h2>
+
         </div>
 
         <div className="header-user-info">
+
           <div className="user-badge-role">
-            👤 <strong>{currentUser.name}</strong>
+            <strong>
+              {nombreRol}
+            </strong>
+
+            {' · '}
+
+            {currentUser.name}
           </div>
 
           <button
+            type="button"
             className="btn-logout"
-            onClick={() => {
-              setCurrentUser(null);
-
-              localStorage.removeItem(
-                'yamaha_auth_user_v16'
-              );
-            }}
+            onClick={
+              handleLogout
+            }
           >
-            Salir ⎋
+            Salir
           </button>
+
         </div>
 
-        <div className="resumen-ejecutivo">
-          <span>
-            META DEL MES: {completadosMes} / {tareasMes || 1}
-          </span>
+        {currentUser.role ===
+          'operario' && (
 
-          <div className="progress-mini">
-            <div
-              style={{
-                width: `${Math.min(
-                  (completadosMes / (tareasMes || 1)) * 100,
-                  100
-                )}%`
-              }}
-            />
+          <div className="resumen-ejecutivo">
+
+            <span>
+              AVANCE DEL DÍA{' '}
+              {porcentajeHoy}%
+            </span>
+
+            <div className="progress-mini">
+              <div
+                style={{
+                  width:
+                    `${porcentajeHoy}%`
+                }}
+              />
+            </div>
+
           </div>
-        </div>
+
+        )}
+
       </header>
 
-      {currentUser.role === 'operario' ? (
-        <OperarioView
-          fechaPantalla={fechaPantalla}
-          setFechaPantalla={setFechaPantalla}
-          pantallaStr={pantallaStr}
-          operarioDelDia={operarioDelDia}
-          agendaPorFecha={agendaPorFecha}
-          setAgendaPorFecha={setAgendaPorFecha}
-          notasTareas={notasTareas}
-          setNotasTareas={setNotasTareas}
-          bancoPreventivos={bancoPreventivos}
-        />
-      ) : (
+      {currentUser.role ===
+      'supervisor' ? (
+
         <SupervisorView
-          fechaPantalla={fechaPantalla}
-          setFechaPantalla={setFechaPantalla}
-          pantallaStr={pantallaStr}
+          fechaPantalla={
+            fechaPantalla
+          }
+          setFechaPantalla={
+            setFechaPantalla
+          }
+          pantallaStr={
+            pantallaStr
+          }
+
           operarioSemanaAnterior={
-            getOperarioPorSemana(fechaPantalla, -1)
+            operarioSemanaAnterior
           }
           operarioSemanaActual={
-            getOperarioPorSemana(fechaPantalla, 0)
+            operarioSemanaActual
           }
           operarioProximaSemana={
-            getOperarioPorSemana(fechaPantalla, 1)
+            operarioProximaSemana
           }
-          operarioDelDia={operarioDelDia}
-          cambiarOperarioSemana={(op) =>
-            setAsignacionesSemanales((prev) => ({
-              ...prev,
-              [getLunesSemana(fechaPantalla)]: op
-            }))
+          operarioDelDia={
+            operarioDelDia
           }
-          cambiarOperarioDiario={(op) =>
-            setAsignacionesDiarias((prev) => ({
-              ...prev,
-              [pantallaStr]: op
-            }))
+
+          cambiarOperarioSemana={
+            cambiarOperarioSemana
           }
-          agendaPorFecha={agendaPorFecha}
-          setAgendaPorFecha={setAgendaPorFecha}
-          notasTareas={notasTareas}
-          operarios={operarios}
-          setOperarios={setOperarios}
-          bancoPreventivos={bancoPreventivos}
-          setBancoPreventivos={setBancoPreventivos}
-          asignacionesDiarias={asignacionesDiarias}
-          asignacionesSemanales={asignacionesSemanales}
+          cambiarOperarioDiario={
+            cambiarOperarioDiario
+          }
+
+          agendaPorFecha={
+            agendaPorFecha
+          }
+          setAgendaPorFecha={
+            setAgendaPorFecha
+          }
+
+          notasTareas={
+            notasTareas
+          }
+
+          operarios={
+            operarios
+          }
+          setOperarios={
+            setOperarios
+          }
+
+          bancoPreventivos={
+            bancoPreventivos
+          }
+          setBancoPreventivos={
+            setBancoPreventivos
+          }
+
+          asignacionesDiarias={
+            asignacionesDiarias
+          }
+          asignacionesSemanales={
+            asignacionesSemanales
+          }
         />
+
+      ) : currentUser.role ===
+        'tareas' ? (
+
+        <TareasDiariasView
+          fechaPantalla={
+            fechaPantalla
+          }
+          setFechaPantalla={
+            setFechaPantalla
+          }
+          pantallaStr={
+            pantallaStr
+          }
+          operarios={
+            operarios
+          }
+        />
+
+      ) : (
+
+        <OperarioView
+          fechaPantalla={
+            fechaPantalla
+          }
+          setFechaPantalla={
+            setFechaPantalla
+          }
+          pantallaStr={
+            pantallaStr
+          }
+
+          operarioDelDia={
+            operarioDelDia
+          }
+
+          agendaPorFecha={
+            agendaPorFecha
+          }
+          setAgendaPorFecha={
+            setAgendaPorFecha
+          }
+
+          notasTareas={
+            notasTareas
+          }
+          setNotasTareas={
+            setNotasTareas
+          }
+
+          bancoPreventivos={
+            bancoPreventivos
+          }
+        />
+
       )}
+
     </div>
   );
 }

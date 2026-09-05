@@ -3745,3 +3745,1045 @@ textarea {
   }
 
 }
+
+
+
+/* =========================================================
+   TAREAS DIARIAS
+   Sección independiente de preventivos
+   Prefijo td- para no romper estilos existentes
+========================================================= */
+
+.login-tabs-three {
+  grid-template-columns:
+    repeat(3, 1fr);
+}
+
+.login-tabs-three .tab-btn {
+  min-width: 0;
+  min-height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  padding:
+    10px 8px;
+
+  font-size: 0.82rem;
+}
+
+.login-tabs-three
+  .tab-btn span {
+  white-space: nowrap;
+}
+
+
+/* CABECERA */
+
+.td-hero,
+.td-admin-heading {
+  margin-bottom: 18px;
+
+  padding:
+    23px 25px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content:
+    space-between;
+
+  gap: 20px;
+
+  border:
+    1px solid
+    var(--y-border);
+
+  border-left:
+    4px solid
+    var(--y-red);
+
+  border-radius: 11px;
+
+  background: white;
+
+  box-shadow:
+    var(--shadow-sm);
+}
+
+.td-hero h2,
+.td-admin-heading h2 {
+  margin: 0;
+
+  color:
+    var(--y-black);
+
+  font-size: 1.45rem;
+}
+
+.td-hero p,
+.td-admin-heading p {
+  margin:
+    6px 0 0;
+
+  color:
+    var(--y-muted);
+
+  font-size: 0.9rem;
+}
+
+.td-fecha-card {
+  min-width: 155px;
+
+  padding:
+    10px 13px;
+
+  border-radius: 8px;
+
+  background:
+    #f5f6f8;
+
+  text-align: right;
+}
+
+.td-fecha-card span {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color:
+    var(--y-muted);
+
+  font-size: 0.68rem;
+}
+
+.td-fecha-card strong {
+  font-size: 0.93rem;
+}
+
+
+/* KPIs OPERARIO */
+
+.td-kpis {
+  display: grid;
+
+  grid-template-columns:
+    130px
+    145px
+    145px
+    minmax(250px, 1fr);
+
+  gap: 12px;
+
+  margin-bottom: 18px;
+}
+
+.td-kpi {
+  min-height: 82px;
+
+  padding:
+    14px 16px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  border:
+    1px solid
+    var(--y-border);
+
+  border-radius: 9px;
+
+  background: white;
+}
+
+.td-kpi span {
+  margin-bottom: 4px;
+
+  color:
+    var(--y-muted);
+
+  font-size: 0.7rem;
+
+  font-weight: 700;
+}
+
+.td-kpi strong {
+  color:
+    var(--y-black);
+
+  font-size: 1.3rem;
+}
+
+.td-kpi-success strong {
+  color:
+    var(--y-success);
+}
+
+.td-kpi-warning strong {
+  color:
+    var(--y-warning);
+}
+
+.td-kpi-progress {
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+}
+
+.td-kpi-progress-top {
+  display: flex;
+
+  justify-content:
+    space-between;
+
+  align-items: center;
+
+  margin-bottom: 8px;
+}
+
+.td-kpi-progress-top span {
+  margin: 0;
+}
+
+.td-progress {
+  width: 100%;
+
+  height: 8px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background:
+    #e8eaed;
+}
+
+.td-progress div {
+  height: 100%;
+
+  border-radius: inherit;
+
+  background:
+    var(--y-success);
+
+  transition:
+    width 0.3s ease;
+}
+
+
+/* TOOLBAR */
+
+.td-toolbar,
+.td-admin-control {
+  margin-bottom: 18px;
+
+  padding:
+    16px 18px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content:
+    space-between;
+
+  gap: 18px;
+
+  flex-wrap: wrap;
+
+  border:
+    1px solid
+    var(--y-border);
+
+  border-radius: 10px;
+
+  background: white;
+
+  box-shadow:
+    var(--shadow-sm);
+}
+
+.td-filtro {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+.td-filtro label {
+  color:
+    var(--y-muted);
+
+  font-size: 0.66rem;
+
+  font-weight: 800;
+
+  letter-spacing: 0.6px;
+}
+
+.td-filtro select {
+  min-width: 220px;
+
+  min-height: 48px;
+
+  padding:
+    9px 12px;
+
+  border:
+    1px solid
+    var(--y-border);
+
+  border-radius: 7px;
+
+  background: white;
+
+  color:
+    var(--y-dark);
+
+  outline: none;
+}
+
+.td-filtro select:focus {
+  border-color:
+    var(--y-red);
+}
+
+
+/* PANEL */
+
+.td-panel {
+  overflow: hidden;
+
+  border:
+    1px solid
+    var(--y-border);
+
+  border-radius: 11px;
+
+  background: white;
+
+  box-shadow:
+    var(--shadow-sm);
+}
+
+.td-panel-header {
+  padding:
+    18px 20px;
+
+  display: flex;
+
+  align-items: flex-end;
+
+  justify-content:
+    space-between;
+
+  gap: 15px;
+
+  border-bottom:
+    1px solid
+    var(--y-border);
+}
+
+.td-panel-header h3 {
+  margin: 0;
+
+  color:
+    var(--y-black);
+
+  font-size: 1.05rem;
+}
+
+
+/* TABLA */
+
+.td-table-wrap {
+  width: 100%;
+
+  overflow-x: auto;
+}
+
+.td-table {
+  width: 100%;
+
+  min-width: 820px;
+
+  border-collapse:
+    collapse;
+}
+
+.td-table th {
+  padding:
+    13px 16px;
+
+  border-bottom:
+    1px solid
+    var(--y-border);
+
+  background:
+    #f7f8fa;
+
+  color:
+    #747b85;
+
+  text-align: left;
+
+  font-size: 0.68rem;
+
+  font-weight: 800;
+
+  letter-spacing:
+    0.6px;
+
+  text-transform: uppercase;
+}
+
+.td-table td {
+  min-height: 64px;
+
+  padding:
+    15px 16px;
+
+  border-bottom:
+    1px solid
+    #eef0f2;
+
+  vertical-align: middle;
+}
+
+.td-table tbody
+  tr:last-child td {
+  border-bottom: none;
+}
+
+.td-row-completed {
+  background:
+    #fbfefc;
+}
+
+.td-status {
+  min-height: 34px;
+
+  padding:
+    6px 10px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  border-radius: 999px;
+
+  font-size: 0.72rem;
+
+  font-weight: 800;
+
+  white-space: nowrap;
+}
+
+.td-status.pending {
+  background:
+    var(--y-warning-bg);
+
+  color:
+    var(--y-warning);
+}
+
+.td-status.completed {
+  background:
+    var(--y-success-bg);
+
+  color:
+    var(--y-success);
+}
+
+.td-operario {
+  color:
+    var(--y-black);
+
+  font-size: 0.84rem;
+}
+
+.td-task-title {
+  color:
+    var(--y-black);
+
+  font-size: 0.88rem;
+
+  line-height: 1.4;
+}
+
+.td-task-detail {
+  display: block;
+
+  max-width: 420px;
+
+  color:
+    var(--y-muted);
+
+  font-size: 0.8rem;
+
+  line-height: 1.45;
+
+  white-space: normal;
+}
+
+.td-action-button {
+  min-width: 120px;
+
+  min-height: 48px;
+
+  padding:
+    10px 14px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  font-size: 0.78rem;
+
+  font-weight: 800;
+
+  touch-action: manipulation;
+}
+
+.td-action-button.complete {
+  background:
+    var(--y-black);
+
+  color: white;
+}
+
+.td-action-button.reopen {
+  border:
+    1px solid
+    #b8dcc5;
+
+  background: white;
+
+  color:
+    var(--y-success);
+}
+
+
+/* VACÍO */
+
+.td-empty {
+  min-height: 220px;
+
+  padding:
+    45px 25px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  color:
+    var(--y-muted);
+
+  text-align: center;
+}
+
+.td-empty-icon {
+  width: 50px;
+
+  height: 50px;
+
+  margin-bottom: 12px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    #eef0f3;
+
+  color:
+    var(--y-dark);
+
+  font-size: 1.35rem;
+
+  font-weight: 800;
+}
+
+.td-empty h3 {
+  margin:
+    0 0 5px;
+
+  color:
+    var(--y-dark);
+}
+
+.td-empty p {
+  max-width: 450px;
+
+  margin: 0;
+
+  font-size: 0.84rem;
+}
+
+
+/* SUPERVISOR */
+
+.td-supervisor {
+  width: 100%;
+}
+
+.td-admin-kpis {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 12px;
+
+  margin-bottom: 18px;
+}
+
+.td-admin-kpi {
+  min-height: 82px;
+
+  padding:
+    14px 16px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  border:
+    1px solid
+    var(--y-border);
+
+  border-radius: 9px;
+
+  background: white;
+}
+
+.td-admin-kpi span {
+  margin-bottom: 4px;
+
+  color:
+    var(--y-muted);
+
+  font-size: 0.7rem;
+
+  font-weight: 700;
+}
+
+.td-admin-kpi strong {
+  color:
+    var(--y-black);
+
+  font-size: 1.3rem;
+}
+
+.td-admin-kpi.success
+  strong {
+  color:
+    var(--y-success);
+}
+
+.td-admin-kpi.warning
+  strong {
+  color:
+    var(--y-warning);
+}
+
+
+/* FORMULARIO DE ASIGNACIÓN */
+
+.td-create-card {
+  margin-bottom: 20px;
+
+  padding: 22px;
+
+  border:
+    1px solid
+    var(--y-border);
+
+  border-radius: 11px;
+
+  background: white;
+
+  box-shadow:
+    var(--shadow-sm);
+}
+
+.td-create-header {
+  margin-bottom: 16px;
+
+  padding-bottom: 14px;
+
+  border-bottom:
+    1px solid
+    var(--y-border);
+}
+
+.td-create-header h3 {
+  margin: 0;
+
+  color:
+    var(--y-black);
+
+  font-size: 1.05rem;
+}
+
+.td-create-form {
+  display: grid;
+
+  grid-template-columns:
+    minmax(180px, 0.8fr)
+    minmax(280px, 1.5fr)
+    minmax(280px, 1.6fr)
+    auto;
+
+  align-items: end;
+
+  gap: 14px;
+}
+
+.td-field {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+.td-field label {
+  color:
+    var(--y-dark);
+
+  font-size: 0.74rem;
+
+  font-weight: 750;
+}
+
+.td-field label span {
+  color:
+    var(--y-muted);
+
+  font-weight: 600;
+}
+
+.td-field input,
+.td-field select,
+.td-field textarea {
+  width: 100%;
+
+  min-height: 50px;
+
+  padding:
+    10px 12px;
+
+  border:
+    1px solid
+    var(--y-border);
+
+  border-radius: 7px;
+
+  background: white;
+
+  color:
+    var(--y-dark);
+
+  outline: none;
+}
+
+.td-field textarea {
+  min-height: 74px;
+
+  resize: vertical;
+
+  line-height: 1.4;
+}
+
+.td-field input:focus,
+.td-field select:focus,
+.td-field textarea:focus {
+  border-color:
+    var(--y-red);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(227, 6, 19, 0.07);
+}
+
+.td-create-button {
+  min-height: 50px;
+
+  padding:
+    10px 17px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background:
+    var(--y-black);
+
+  color: white;
+
+  font-size: 0.8rem;
+
+  font-weight: 800;
+
+  white-space: nowrap;
+}
+
+.td-admin-actions {
+  display: flex;
+
+  gap: 7px;
+
+  flex-wrap: wrap;
+}
+
+.td-small-action {
+  min-height: 42px;
+
+  padding:
+    8px 11px;
+
+  border:
+    1px solid
+    var(--y-border);
+
+  border-radius: 7px;
+
+  background: white;
+
+  color:
+    var(--y-dark);
+
+  font-size: 0.72rem;
+
+  font-weight: 750;
+}
+
+.td-small-action.danger {
+  border-color:
+    #f0caca;
+
+  background:
+    var(--y-danger-bg);
+
+  color:
+    var(--y-danger);
+}
+
+
+/* RESPONSIVE */
+
+@media (
+  max-width: 1100px
+) {
+
+  .td-create-form {
+    grid-template-columns:
+      1fr 1fr;
+  }
+
+  .td-field-description {
+    grid-column:
+      1 / -1;
+  }
+
+  .td-create-button {
+    width: 100%;
+  }
+
+}
+
+
+@media (
+  max-width: 800px
+) {
+
+  .login-tabs-three {
+    grid-template-columns:
+      1fr;
+  }
+
+  .login-tabs-three
+    .tab-btn {
+    justify-content:
+      flex-start;
+
+    padding-left: 18px;
+  }
+
+  .td-hero,
+  .td-admin-heading {
+    align-items:
+      flex-start;
+
+    flex-direction:
+      column;
+  }
+
+  .td-fecha-card {
+    width: 100%;
+
+    text-align: left;
+  }
+
+  .td-kpis {
+    grid-template-columns:
+      1fr 1fr;
+  }
+
+  .td-kpi-progress {
+    grid-column:
+      1 / -1;
+  }
+
+  .td-toolbar {
+    align-items: stretch;
+
+    flex-direction:
+      column;
+  }
+
+  .td-filtro,
+  .td-filtro select {
+    width: 100%;
+  }
+
+  .td-admin-kpis {
+    grid-template-columns:
+      1fr 1fr 1fr;
+  }
+
+  .td-create-form {
+    grid-template-columns:
+      1fr;
+  }
+
+  .td-field-description {
+    grid-column: auto;
+  }
+
+  .td-table {
+    min-width: 0;
+  }
+
+  .td-table thead {
+    display: none;
+  }
+
+  .td-table,
+  .td-table tbody,
+  .td-table tr,
+  .td-table td {
+    display: block;
+
+    width: 100%;
+  }
+
+  .td-table tr {
+    padding:
+      14px 16px;
+
+    border-bottom:
+      1px solid
+      var(--y-border);
+  }
+
+  .td-table tr:last-child {
+    border-bottom: none;
+  }
+
+  .td-table td {
+    min-height: 0;
+
+    padding:
+      7px 0;
+
+    display: grid;
+
+    grid-template-columns:
+      115px 1fr;
+
+    align-items: center;
+
+    gap: 10px;
+
+    border: none;
+  }
+
+  .td-table td::before {
+    content:
+      attr(data-label);
+
+    color:
+      var(--y-muted);
+
+    font-size: 0.68rem;
+
+    font-weight: 800;
+
+    text-transform:
+      uppercase;
+  }
+
+  .td-action-button {
+    width: 100%;
+
+    min-height: 52px;
+  }
+
+}
+
+
+@media (
+  max-width: 560px
+) {
+
+  .td-kpis,
+  .td-admin-kpis {
+    grid-template-columns:
+      1fr 1fr;
+  }
+
+  .td-admin-kpi:last-child {
+    grid-column:
+      1 / -1;
+  }
+
+  .td-panel-header {
+    align-items:
+      flex-start;
+
+    flex-direction:
+      column;
+  }
+
+  .td-table td {
+    grid-template-columns:
+      1fr;
+  }
+
+  .td-table td::before {
+    margin-bottom: -3px;
+  }
+
+}
